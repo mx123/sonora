@@ -1,0 +1,14 @@
+id: NFR-0002
+title: Acceptance tests become mandatory when code appears
+status: proposed
+category: quality-gates
+statement: >
+  Once backend/frontend code is present, acceptance tests must exist and pass in CI
+  for changes affecting implemented capabilities.
+metric: acceptance_tests_ci
+target: pass
+scope:
+  - backend
+  - frontend
+rationale: >
+  Prevents "implemented" from drifting away from verified behavior as code starts to exist.

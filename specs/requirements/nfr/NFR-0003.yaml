@@ -1,0 +1,15 @@
+id: NFR-0003
+title: E2E tests become mandatory when code appears
+status: proposed
+category: quality-gates
+statement: >
+  Once backend/frontend code is present, end-to-end tests must exist and pass in CI
+  to validate cross-component user flows.
+metric: e2e_tests_ci
+target: pass
+scope:
+  - integration-tests
+  - backend
+  - frontend
+rationale: >
+  Ensures system-level behavior remains correct as the architecture evolves.

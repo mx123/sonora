@@ -1,0 +1,14 @@
+id: NFR-0004
+title: Architecture conformance checks become mandatory when code appears
+status: proposed
+category: maintainability
+statement: >
+  Once backend/frontend code is present, automated architecture conformance checks must
+  run in CI and pass (e.g., Ports & Adapters boundaries, dependency rules).
+metric: architecture_tests_ci
+target: pass
+scope:
+  - backend
+  - frontend
+rationale: >
+  Preserves architectural integrity during evolution from monolith to distributed.
