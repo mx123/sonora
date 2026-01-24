@@ -1,0 +1,17 @@
+id: CAP-0001
+title: User onboarding
+status: implemented
+owner: product
+priority: high
+bounded_contexts:
+  - CTX-0001
+description: >
+  Provide a complete onboarding flow for a new user.
+acceptance_criteria:
+  - "A user can register and reach an onboarded state."
+trace:
+  domain:
+    commands:
+      - specs/domain/commands.md#CMD-0001
+    events:
+      - specs/domain/events.md#EVT-0001

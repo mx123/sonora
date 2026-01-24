@@ -1,0 +1,11 @@
+id: BV-0001
+title: Reduce onboarding time
+status: proposed
+owner: product
+priority: high
+description: >
+  Reduce time-to-first-success for new users.
+success_metrics:
+  - metric: onboarding_completion_time_p50
+    target: "<= 5m"
+    measurement: analytics

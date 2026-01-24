@@ -1,0 +1,10 @@
+links:
+  - from: BV-0001
+    to: CAP-0001
+    type: realizes
+    rationale: "Onboarding capability reduces onboarding time."
+
+  - from: CAP-0001
+    to: BR-0001
+    type: satisfies
+    rationale: "Onboarding includes registration and must enforce uniqueness."

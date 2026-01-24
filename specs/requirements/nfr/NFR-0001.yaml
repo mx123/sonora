@@ -1,0 +1,13 @@
+id: NFR-0001
+title: Monolith mode supports limited load
+status: proposed
+category: scalability
+statement: >
+  The system must be runnable as a functional monolith with reduced throughput.
+metric: requests_per_second
+target: ">= 50"
+scope:
+  - backend
+  - deployment
+rationale: >
+  Enables local development, cost-efficient environments, and early delivery.
