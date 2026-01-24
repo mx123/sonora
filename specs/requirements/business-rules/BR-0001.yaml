@@ -1,0 +1,10 @@
+id: BR-0001
+title: Registration requires unique email
+status: approved
+priority: high
+statement: >
+  The system must not allow multiple accounts with the same email.
+acceptance_criteria:
+  - "Given an existing email, registration is rejected with a clear error."
+notes: >
+  This is a business rule; API-level behavior is derived.

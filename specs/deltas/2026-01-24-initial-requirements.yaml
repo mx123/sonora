@@ -1,0 +1,15 @@
+id: DELTA-2026-01-24-001
+title: Initial requirements baseline
+status: applied
+changes:
+  - type: add
+    target: BV-0001
+  - type: add
+    target: CAP-0001
+  - type: add
+    target: BR-0001
+  - type: add
+    target: NFR-0001
+compatibility:
+  claim: non-breaking
+  rationale: "Initial baseline." 
