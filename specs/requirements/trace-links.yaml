@@ -8,3 +8,18 @@ links:
     to: BR-0001
     type: satisfies
     rationale: "Onboarding includes registration and must enforce uniqueness."
+
+  - from: CAP-0001
+    to: NFR-0002
+    type: verifies
+    rationale: "When code exists, implemented onboarding must be acceptance-tested in CI."
+
+  - from: CAP-0001
+    to: NFR-0003
+    type: verifies
+    rationale: "When code exists, onboarding flow must be validated end-to-end."
+
+  - from: CAP-0001
+    to: NFR-0004
+    type: verifies
+    rationale: "When code exists, architecture constraints must be continuously enforced."

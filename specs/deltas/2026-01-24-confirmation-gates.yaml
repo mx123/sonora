@@ -1,0 +1,13 @@
+id: DELTA-2026-01-24-002
+title: Add implementation confirmation gates (spec + deferred quality gates)
+status: applied
+changes:
+  - type: add
+    target: NFR-0002
+  - type: add
+    target: NFR-0003
+  - type: add
+    target: NFR-0004
+compatibility:
+  claim: non-breaking
+  rationale: "Adds governance constraints only."

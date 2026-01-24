@@ -1,0 +1,193 @@
+name: ci
+
+on:
+  pull_request:
+    paths:
+      - "specs/**"
+      - "tools/**"
+      - ".github/workflows/**"
+      - "backend/**"
+      - "frontend/**"
+      - "integration-tests/**"
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  specs-validate:
+    name: specs-validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install spec-ci deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r tools/spec-ci/requirements.txt
+
+      - name: Validate specs
+        run: python tools/spec-ci/validate.py
+
+  quality-gates:
+    name: quality-gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect activation
+        id: detect
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          backend_active=0
+          web_active=0
+          mobile_active=0
+
+          if [[ -f backend/pom.xml || -f backend/build.gradle || -f backend/build.gradle.kts ]]; then
+            if [[ -d backend/src/main/java ]] && find backend/src/main/java -type f | grep -q .; then
+              backend_active=1
+            fi
+          fi
+
+          if [[ -f frontend/web/package.json ]]; then
+            if [[ -d frontend/web/src ]] && find frontend/web/src -type f | grep -q .; then
+              web_active=1
+            fi
+          fi
+
+          if [[ -f frontend/mobile/pubspec.yaml ]]; then
+            if [[ -d frontend/mobile/lib ]] && find frontend/mobile/lib -type f | grep -q .; then
+              mobile_active=1
+            fi
+          fi
+
+          overall_active=0
+          if [[ "$backend_active" == "1" || "$web_active" == "1" || "$mobile_active" == "1" ]]; then
+            overall_active=1
+          fi
+
+          echo "backend_active=$backend_active" >> "$GITHUB_OUTPUT"
+          echo "web_active=$web_active" >> "$GITHUB_OUTPUT"
+          echo "mobile_active=$mobile_active" >> "$GITHUB_OUTPUT"
+          echo "overall_active=$overall_active" >> "$GITHUB_OUTPUT"
+
+          echo "Activation summary: backend=$backend_active web=$web_active mobile=$mobile_active overall=$overall_active"
+
+      - name: No-op (not activated)
+        if: steps.detect.outputs.overall_active != '1'
+        run: |
+          echo "Quality gates are not activated yet (no real backend/frontend code detected)."
+          echo "This check exists so branch protection can require it from day 1."
+
+      # Backend acceptance + arch (ArchUnit via tests)
+      - name: Backend tests (Maven)
+        if: steps.detect.outputs.backend_active == '1' && hashFiles('backend/pom.xml') != ''
+        working-directory: backend
+        run: mvn -B test
+
+      - name: Backend tests (Gradle)
+        if: steps.detect.outputs.backend_active == '1' && hashFiles('backend/pom.xml') == ''
+        working-directory: backend
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -x ./gradlew ]]; then
+            ./gradlew test
+          else
+            echo "ERROR: backend is active, but ./gradlew is missing or not executable."
+            echo "Add Gradle wrapper or use Maven (pom.xml)."
+            exit 1
+          fi
+
+      - name: Backend architecture test presence
+        if: steps.detect.outputs.backend_active == '1'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -d backend/src/test ]]; then
+            echo "ERROR: backend is active, but backend/src/test is missing."
+            exit 1
+          fi
+          if ! find backend/src/test -type f \( -name '*Architecture*Test*.java' -o -name '*Arch*Test*.java' -o -name '*Architecture*Test*.kt' -o -name '*Arch*Test*.kt' \) | grep -q .; then
+            echo "ERROR: backend is active, but no architecture test file found (expected something like *Architecture*Test*)."
+            echo "Add an ArchUnit-based test (or equivalent) to enforce Ports & Adapters boundaries."
+            exit 1
+          fi
+
+      # Web acceptance + basic boundary checks (lint)
+      - name: Web tests
+        if: steps.detect.outputs.web_active == '1'
+        working-directory: frontend/web
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ ! -f package-lock.json ]]; then
+            echo "ERROR: web frontend is active, but package-lock.json is missing."
+            echo "Add lockfile so CI is deterministic."
+            exit 1
+          fi
+
+          npm ci
+
+          node -e "const p=require('./package.json'); const s=(p.scripts||{}); if(!s.test){console.error('ERROR: missing package.json scripts.test'); process.exit(1);}"
+          npm test
+
+      - name: Web lint (architecture proxy)
+        if: steps.detect.outputs.web_active == '1'
+        working-directory: frontend/web
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -e "const p=require('./package.json'); const s=(p.scripts||{}); if(!s.lint){console.error('ERROR: missing package.json scripts.lint'); process.exit(1);}"
+          npm run lint
+
+      # Mobile acceptance (Flutter)
+      - name: Setup Flutter
+        if: steps.detect.outputs.mobile_active == '1'
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: stable
+
+      - name: Mobile tests
+        if: steps.detect.outputs.mobile_active == '1'
+        working-directory: frontend/mobile
+        shell: bash
+        run: |
+          set -euo pipefail
+          flutter --version
+          flutter test
+
+      # E2E suite
+      - name: E2E tests
+        if: steps.detect.outputs.overall_active == '1'
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ ! -f integration-tests/package.json ]]; then
+            echo "ERROR: code is active, but integration-tests/package.json is missing."
+            echo "Add an E2E test harness under integration-tests/ (Node-based recommended), or adjust CI once strategy is defined."
+            exit 1
+          fi
+
+          if [[ ! -f integration-tests/package-lock.json ]]; then
+            echo "ERROR: integration-tests is present but package-lock.json is missing."
+            exit 1
+          fi
+
+          cd integration-tests
+          npm ci
+
+          node -e "const p=require('./package.json'); const s=(p.scripts||{}); if(!s.test){console.error('ERROR: missing integration-tests scripts.test'); process.exit(1);}"
+          npm test
