@@ -1,0 +1,17 @@
+id: NFR-0007
+title: Event collection is server-side and consolidated
+status: proposed
+category: observability
+statement: >
+  All events must be collected once and on the server side.
+  Collection from the front-end is permitted only when there are no corresponding API calls
+  made from the front-end.
+  Event consolidation, transformation, and distribution tools must be used.
+metric: server_side_event_collection
+target: pass
+scope:
+  - backend
+  - frontend
+  - deployment
+rationale: >
+  Improves event quality and governance, and reduces double-counting and client-side loss.

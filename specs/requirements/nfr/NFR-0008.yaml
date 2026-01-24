@@ -1,0 +1,16 @@
+id: NFR-0008
+title: Correlation IDs are present end-to-end
+status: proposed
+category: observability
+statement: >
+  All APIs, messages, database requests, logs, and other relevant operations must carry a
+  correlation_id that allows cross-referencing across API, service, and database calls.
+  All requests and updates in the system must be correlated with the user and the customer
+  when possible.
+metric: correlation_id_coverage
+target: "100% of production requests"
+scope:
+  - backend
+  - deployment
+rationale: >
+  Enables efficient debugging, auditing, and analytics across distributed components.

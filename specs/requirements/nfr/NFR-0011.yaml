@@ -1,0 +1,14 @@
+id: NFR-0011
+title: Production services use centralized secrets management
+status: proposed
+category: security
+statement: >
+  All production services must use a centralized secrets service for secret storage
+  and retrieval.
+metric: centralized_secrets
+target: "100% of production services"
+scope:
+  - backend
+  - deployment
+rationale: >
+  Reduces secret sprawl and enables rotation, auditing, and policy enforcement.

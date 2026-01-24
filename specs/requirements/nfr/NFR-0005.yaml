@@ -1,0 +1,15 @@
+id: NFR-0005
+title: Services are independently deployable and recoverable
+status: proposed
+category: reliability
+statement: >
+  Services must be independently deployable without disruptions to other services.
+  Services must start, stop, and recover independent of the state of any other services,
+  including shared "commons" libraries (e.g., logging).
+metric: service_independence
+target: pass
+scope:
+  - backend
+  - deployment
+rationale: >
+  Prevents hidden runtime coupling and enables safe incremental delivery.

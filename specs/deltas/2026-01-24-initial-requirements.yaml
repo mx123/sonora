@@ -10,6 +10,26 @@ changes:
     target: BR-0001
   - type: add
     target: NFR-0001
+  - type: add
+    target: NFR-0005
+  - type: add
+    target: NFR-0006
+  - type: add
+    target: NFR-0007
+  - type: add
+    target: NFR-0008
+  - type: add
+    target: NFR-0009
+  - type: add
+    target: NFR-0010
+  - type: add
+    target: NFR-0011
+  - type: add
+    target: NFR-0012
+  - type: add
+    target: NFR-0013
+  - type: add
+    target: NFR-0014
 compatibility:
   claim: non-breaking
   rationale: "Initial baseline." 

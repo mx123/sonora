@@ -1,0 +1,16 @@
+id: NFR-0012
+title: Services support dynamic configuration without deployment
+status: proposed
+category: operability
+statement: >
+  All services should support a dynamic configuration service allowing configuration
+  changes without deployment.
+  Examples include credentials, logging levels, and endpoint configurations.
+metric: dynamic_configuration
+target: pass
+scope:
+  - backend
+  - frontend
+  - deployment
+rationale: >
+  Enables faster operational changes and safer rollouts by reducing redeployments.
