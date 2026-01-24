@@ -1,0 +1,14 @@
+id: NFR-0009
+title: Production services expose standardized health endpoints
+status: proposed
+category: operability
+statement: >
+  All production services must implement standardized health endpoints suitable for
+  monitoring and orchestration.
+metric: health_endpoints
+target: "100% of production services"
+scope:
+  - backend
+  - deployment
+rationale: >
+  Enables reliable monitoring, alerting, and automated recovery.

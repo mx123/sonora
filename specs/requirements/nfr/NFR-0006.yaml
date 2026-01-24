@@ -1,0 +1,15 @@
+id: NFR-0006
+title: Third-party calls are wrapped into common libraries
+status: proposed
+category: maintainability
+statement: >
+  Calls to commonly used third-party services must be wrapped into our common library(ies).
+  Examples include logging, secrets access, and event collection.
+metric: third_party_wrappers
+target: pass
+scope:
+  - backend
+  - frontend
+rationale: >
+  Centralizing integrations reduces duplication, improves testability, and enables consistent
+  policies (retries, timeouts, telemetry, auth).

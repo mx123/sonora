@@ -1,0 +1,15 @@
+id: NFR-0010
+title: Production services support standardized logging and tracing
+status: proposed
+category: observability
+statement: >
+  All production services must support standardized logging.
+  Logging levels should be dynamically configurable without deployment.
+  Logging should allow tracing a request through different services via a trace_id.
+metric: standardized_logging
+target: "100% of production services"
+scope:
+  - backend
+  - deployment
+rationale: >
+  Supports incident response, performance analysis, and root-cause investigation.

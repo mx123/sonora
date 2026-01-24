@@ -1,0 +1,14 @@
+id: NFR-0013
+title: Production data has enforced retention policies
+status: proposed
+category: compliance
+statement: >
+  All production data must have a retention policy enforced, ensuring that databases
+  are archived and/or trimmed regularly.
+metric: retention_policy
+target: "100% of production data stores"
+scope:
+  - backend
+  - deployment
+rationale: >
+  Controls storage growth, reduces risk, and supports regulatory and operational needs.

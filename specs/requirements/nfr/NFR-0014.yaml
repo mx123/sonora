@@ -1,0 +1,13 @@
+id: NFR-0014
+title: Localization updates are possible without deployment
+status: proposed
+category: usability
+statement: >
+  Adding languages, changing translations, or other localization elements for all
+  customer-facing UIs and message templates must be possible without deployment.
+metric: localization_without_deploy
+target: pass
+scope:
+  - frontend
+rationale: >
+  Enables faster iteration on copy and translations with reduced operational risk.
