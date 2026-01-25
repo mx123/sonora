@@ -1,0 +1,17 @@
+id: NFR-0019
+title: Serialized JWT length is bounded; no PII in JWT claims
+status: proposed
+category: security
+statement: >
+  Serialized JWTs (as transmitted, measured in bytes) should typically be within
+  1024–2048 B. Serialized JWTs must not exceed 4096 B. Any JWT larger than 4096 B
+  must be rejected (hard-fail). JWTs must not contain PII (e.g., email address,
+  phone number, full name, postal address) or domain business data.
+metric: serialized_jwt_length_bytes
+target: "recommended: 1024–2048 B; max: 4096 B; >4096 => hard-fail"
+scope:
+  - backend
+  - integration-tests
+rationale: >
+  Controls JWT bloat (especially with multi-tenant scopes) and reduces accidental
+  sensitive data leakage through tokens.

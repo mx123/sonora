@@ -1,0 +1,16 @@
+id: BV-0002
+title: Secure federated access across distributed domains
+status: proposed
+owner: product
+priority: high
+description: >
+  Enable a user to access multiple independently deployed domain services during a
+  single authentication session with strong security guarantees and tenant
+  isolation.
+success_metrics:
+  - metric: cross_domain_authentication_success_rate
+    target: ">= 99.9%"
+    measurement: analytics
+  - metric: auth_related_incidents_per_quarter
+    target: "0"
+    measurement: ops

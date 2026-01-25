@@ -1,0 +1,18 @@
+id: NFR-0018
+title: Domain services validate JWTs locally using cached JWKS (fail-closed)
+status: proposed
+category: security
+statement: >
+  Domain services must validate JWT access tokens locally (signature, issuer,
+  audience, and expiration) using cached public keys (JWKS) obtained from the
+  Auth Domain. Domain services must not require synchronous calls to the Auth
+  Domain to authorize requests. If a token cannot be validated, the service must
+  reject the token and deny the request (fail-closed).
+metric: jwt_validation_auth_domain_sync_calls
+target: "0"
+scope:
+  - backend
+  - integration-tests
+rationale: >
+  Preserves domain statelessness and availability while keeping strong security
+  guarantees in clustered and elastic deployments.

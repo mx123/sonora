@@ -1,0 +1,80 @@
+id: CAP-0002
+title: Stateless JWT-based authentication and authorization for distributed domains
+status: approved
+owner: product
+priority: high
+bounded_contexts:
+  - CTX-0001
+description: >
+  Provide stateless, federated access across independently deployed domain
+  services using short-lived JWT access tokens issued by a dedicated Auth Domain.
+  Authorization is enforced within each domain based on token claims, without
+  synchronous calls to the Auth Domain.
+acceptance_criteria:
+  - "Auth Domain is the sole issuer of access tokens and refresh tokens."
+  - "Domain services validate JWTs locally (signature/iss/aud/exp) using cached JWKS."
+  - "If token validation fails, the domain service rejects the token and the request."
+  - "Tenant isolation is enforced based on the mandatory tenant_id claim; cross-tenant access is rejected by default."
+  - "Refresh tokens are never accepted or processed by non-auth domain services."
+  - "The API Gateway/BFF (if present) does not replace domain-level authorization."
+
+jwt_model:
+  access_token:
+    type: jwt
+    ttl_minutes: "5-15"
+    signing: "asymmetric (RS256/ES256)"
+    usage: "client-to-domain and inter-domain"
+  refresh_token:
+    type: opaque
+    ttl: "long-lived"
+    storage: "Auth Domain only"
+
+jwks_and_key_rotation:
+  jwks_endpoint: "published by Auth Domain"
+  validation: "domains cache and periodically refresh keys"
+  failure_mode: "fail-closed if signature cannot be validated"
+
+jwt_claim_contract:
+  standard:
+    required:
+      - iss
+      - sub
+      - aud
+      - exp
+      - iat
+      - jti
+  context_and_security:
+    required:
+      - tenant_id
+      - session_id
+      - auth_level
+      - token_type
+    constraints:
+      - "tenant_id is mandatory and must not be client-overridden."
+      - "token_type must be 'access' for access tokens."
+  authorization:
+    recommended:
+      - roles
+      - scopes
+    constraints:
+      - "No domain business data is carried in JWTs."
+      - "JWTs must not contain PII (see NFR-0019)."
+
+claim_governance:
+  owner: "Auth Domain"
+  change_policy: >
+    Claim contract changes are versioned and must be expressed as governed spec
+    changes (BV/CAP/BR/NFR/trace-links) with a delta, aligned with an ADR when
+    applicable.
+  compatibility: >
+    Claim additions should be backward-compatible; removals/semantics changes are
+    breaking and require explicit approval.
+  size_budget:
+    nfr: NFR-0019
+    measurement: "serialized JWT length in bytes"
+
+security_constraints:
+  zero_trust_between_services: true
+  no_shared_session_storage: true
+  no_sync_calls_to_auth_for_authorization: true
+  token_revocation: "eventual (short-lived access tokens); compensating controls are optional"
