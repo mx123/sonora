@@ -28,3 +28,13 @@ links:
     to: NFR-0015
     type: verifies
     rationale: "Backend must be stateless and idempotent; validated via API and message-handler tests."
+
+  - from: CAP-0001
+    to: NFR-0016
+    type: verifies
+    rationale: "Build orchestration is centralized via root Gradle Wrapper and aggregate tasks."
+
+  - from: CAP-0001
+    to: NFR-0017
+    type: verifies
+    rationale: "Tooling is OS-agnostic and Gradle-first, without OS-specific script requirements."

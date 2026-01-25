@@ -1,0 +1,19 @@
+id: NFR-0016
+title: Root Gradle Wrapper and centralized aggregate tasks
+status: proposed
+category: maintainability
+statement: >
+  The repository must provide a Gradle Wrapper at the repo root and use it as the
+  primary entrypoint for Gradle execution. Aggregate tasks that coordinate work
+  across multiple modules/areas (e.g., build/test/check) must be defined centrally
+  in a single place; submodules may define only local tasks.
+metric: gradle_wrapper_and_aggregate_tasks
+target: pass
+scope:
+  - ci
+  - backend
+  - frontend
+  - tools
+rationale: >
+  Ensures deterministic, repeatable builds and prevents fragmented build orchestration
+  as the system evolves from monolith to partially distributed deployment.

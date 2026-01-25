@@ -1,6 +1,6 @@
 # ADR-0003: LLM Agent Transformation Workflow (Specs → Change Tasks)
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-01-24
 
 ## Context

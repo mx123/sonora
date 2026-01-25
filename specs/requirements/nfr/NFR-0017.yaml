@@ -1,0 +1,19 @@
+id: NFR-0017
+title: OS-agnostic developer and CI tooling (Gradle-first)
+status: proposed
+category: maintainability
+statement: >
+  Project tooling must be OS-agnostic: core build and check workflows must be
+  invokable in a cross-platform way, primarily via Gradle tasks (using the Gradle
+  Wrapper), without requiring OS-specific bash/bat scripts for local development.
+  CI may use bash internally, but bash must not become a prerequisite for local usage.
+metric: os_agnostic_gradle_first_tooling
+target: pass
+scope:
+  - ci
+  - backend
+  - frontend
+  - tools
+rationale: >
+  Enables consistent developer experience across operating systems and reduces
+  environment-specific drift while keeping CI implementation flexible.
