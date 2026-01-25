@@ -1,0 +1,14 @@
+id: DELTA-2026-01-25-002
+title: Adopt federated UI composition (ADR-0006)
+status: proposed
+changes:
+  - type: add
+    target: BV-0003
+  - type: add
+    target: CAP-0003
+  - type: add
+    target: NFR-0020
+compatibility:
+  claim: non-breaking
+  ui: non-breaking
+  rationale: "Adds new value/capability and a boundary NFR; no changes to existing requirements."

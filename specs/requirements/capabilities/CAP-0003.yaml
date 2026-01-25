@@ -1,0 +1,18 @@
+id: CAP-0003
+title: Shell-based federated UI composition (web and mobile)
+status: proposed
+owner: product
+priority: high
+bounded_contexts:
+  - CTX-0001
+description: >
+  Compose multiple domain-owned UI modules into a single end-user application via
+  a dedicated Shell application. Domains ship independently and integrate only
+  through explicit UI entrypoint contracts, without direct cross-domain UI
+  dependencies.
+acceptance_criteria:
+  - "A Shell application hosts navigation, authentication integration, and global theming."
+  - "Each domain UI exposes an explicit entrypoint (e.g., mount(context)) and can be loaded independently."
+  - "Domains do not directly import or couple to other domains' UI code; integration happens only via the Shell."
+  - "Cross-domain communication occurs only via Shell-mediated navigation and event contracts."
+  - "Shared libraries are limited to stateless primitives (types, design tokens, logging), not business UI components."

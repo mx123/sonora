@@ -1,0 +1,18 @@
+id: NFR-0020
+title: Federated UI composition enforces strict domain boundaries
+status: proposed
+category: maintainability
+statement: >
+  When multiple domain-owned UIs are composed into one product, the composition
+  model must enforce strict boundaries: the Shell owns routing, global layout,
+  theming, and authentication integration; domains integrate only through explicit
+  UI entrypoint contracts and Shell-mediated events/navigation. Domains must not
+  directly import other domains' UI code, share global mutable UI state, or share
+  business UI components across domains.
+metric: ui_boundary_violations
+target: "0"
+scope:
+  - frontend
+rationale: >
+  Prevents coupling and release coordination across domains while maintaining a
+  coherent product experience.

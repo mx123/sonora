@@ -1,0 +1,16 @@
+id: BV-0003
+title: Unified user experience across domains
+status: proposed
+owner: product
+priority: high
+description: >
+  Provide a coherent, predictable user experience across independently delivered
+  domain UIs (web and mobile), so users perceive a single product even when UI
+  features are owned and shipped by different teams.
+success_metrics:
+  - metric: cross_domain_user_task_completion_rate
+    target: ">= 99.0%"
+    measurement: analytics
+  - metric: ui_consistency_regressions_per_release
+    target: "0"
+    measurement: qa
