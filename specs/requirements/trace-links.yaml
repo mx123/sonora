@@ -63,3 +63,18 @@ links:
     to: NFR-0015
     type: verifies
     rationale: "JWT-based access model supports stateless domains and avoids server-side sessions."
+
+  - from: BV-0003
+    to: CAP-0003
+    type: realizes
+    rationale: "A Shell-based federated composition model provides consistent UX across domain-owned UIs."
+
+  - from: CAP-0003
+    to: NFR-0020
+    type: verifies
+    rationale: "The capability is defined to enforce strict boundaries and Shell-mediated integration."
+
+  - from: CAP-0003
+    to: NFR-0004
+    type: verifies
+    rationale: "Architecture conformance checks must prevent forbidden cross-domain UI coupling once code exists."
