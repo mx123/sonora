@@ -1,0 +1,15 @@
+id: BR-0002
+title: Tenant isolation is enforced via mandatory tenant_id claim
+status: proposed
+priority: high
+statement: >
+  Every request authenticated via JWT must include a valid tenant_id claim.
+  Domain services must enforce tenant isolation: access to resources of a
+  different tenant is forbidden by default.
+acceptance_criteria:
+  - "Requests without a tenant_id claim are rejected."
+  - "Requests where tenant_id does not match the targeted resource tenant are rejected."
+  - "Client-supplied tenant context must not override the tenant_id claim."
+notes: >
+  This rule applies across all domain services and is enforced at the domain
+  boundary; API gateway checks may exist but do not replace domain enforcement.

@@ -38,3 +38,28 @@ links:
     to: NFR-0017
     type: verifies
     rationale: "Tooling is OS-agnostic and Gradle-first, without OS-specific script requirements."
+
+  - from: BV-0002
+    to: CAP-0002
+    type: realizes
+    rationale: "Federated, secure access across domains enables the business value."
+
+  - from: CAP-0002
+    to: BR-0002
+    type: satisfies
+    rationale: "JWT claim-based auth must enforce tenant isolation at each domain boundary."
+
+  - from: CAP-0002
+    to: NFR-0018
+    type: verifies
+    rationale: "Domains validate JWTs locally via cached JWKS and fail-closed without sync Auth calls."
+
+  - from: CAP-0002
+    to: NFR-0019
+    type: verifies
+    rationale: "JWT size budget and PII prohibition are enforced for distributed authorization."
+
+  - from: CAP-0002
+    to: NFR-0015
+    type: verifies
+    rationale: "JWT-based access model supports stateless domains and avoids server-side sessions."

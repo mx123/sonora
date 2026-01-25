@@ -1,0 +1,17 @@
+id: DELTA-2026-01-25-001
+title: Adopt stateless JWT auth for distributed domains (ADR-0005)
+status: proposed
+changes:
+  - type: add
+    target: BV-0002
+  - type: add
+    target: CAP-0002
+  - type: add
+    target: BR-0002
+  - type: add
+    target: NFR-0018
+  - type: add
+    target: NFR-0019
+compatibility:
+  claim: non-breaking
+  rationale: "Adds new capability and requirements; no changes to existing requirements." 
