@@ -1,6 +1,6 @@
 # ADR-0002: Implementation Confirmation Gates (Definition of Done)
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-01-24
 
 ## Context
@@ -43,16 +43,17 @@ Mutation testing is explicitly **deferred** until the codebase and test strategy
 These gates become enforceable when **either** backend or frontend is considered *active*.
 
 - **Backend active** when:
-  - `backend/pom.xml` OR `backend/build.gradle` OR `backend/build.gradle.kts` exists, AND
-  - at least one production source file exists under `backend/src/main/java/`.
+  - at least one JVM app exists under `apps/` (monolith or service) with a build descriptor
+    (e.g., `apps/**/build.gradle(.kts)` or `apps/**/pom.xml`), AND
+  - at least one production source file exists under `apps/**/src/main/java/`.
 
 - **Web frontend active** when:
-  - `frontend/web/package.json` exists, AND
-  - at least one production source file exists under `frontend/web/src/`.
+  - `frontends/web/package.json` exists, AND
+  - at least one production source file exists under `frontends/web/src/`.
 
 - **Mobile frontend active** when:
-  - `frontend/mobile/pubspec.yaml` exists, AND
-  - at least one production source file exists under `frontend/mobile/lib/`.
+  - `frontends/mobile/pubspec.yaml` exists, AND
+  - at least one production source file exists under `frontends/mobile/lib/`.
 
 If any of the above becomes active, the corresponding gates become mandatory.
 

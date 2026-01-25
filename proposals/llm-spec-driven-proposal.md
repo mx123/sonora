@@ -116,11 +116,11 @@ repo-root/
 │  └─ rules/
 │
 ├─ tools/                     # LLM + validation + generators
-├─ backend/                   # Spring Boot implementation
-├─ frontend/
+├─ apps/                      # Runtime composition (monolith / services)
+├─ frontends/
 │  ├─ web/
 │  └─ mobile/
-├─ integration-tests/
+├─ infra/                     # Docker, Kubernetes, local-dev
 └─ docs/
   └─ derived/                # GENERATED ONLY (OpenAPI/AsyncAPI/Structurizr/trace reports)
 ```

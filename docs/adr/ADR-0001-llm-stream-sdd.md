@@ -1,6 +1,6 @@
 # ADR-0001: Spec-Driven Development (SDD) + Dedicated LLM Stream
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-01-24
 
 ## Context
