@@ -23,3 +23,8 @@ links:
     to: NFR-0004
     type: verifies
     rationale: "When code exists, architecture constraints must be continuously enforced."
+
+  - from: CAP-0001
+    to: NFR-0015
+    type: verifies
+    rationale: "Backend must be stateless and idempotent; validated via API and message-handler tests."

@@ -1,0 +1,20 @@
+id: NFR-0015
+title: Backend is stateless; APIs and message handlers are idempotent
+status: proposed
+category: reliability
+statement: >
+  The backend must be stateless (no state preservation between requests and no
+  requirements for server-side session/affinity). All write operations available
+  through the API and message handlers must be idempotent: the client passes an
+  Idempotency-Key header, and repeated calls/redeliveries with the same
+  Idempotency-Key must return the same result and not lead to duplicate side
+  effects (e.g., repeated entity creation, repeated processing, or repeated
+  event emission).
+metric: duplicate_side_effects_per_idempotency_key
+target: "0"
+scope:
+  - backend
+  - integration-tests
+rationale: >
+  Ensures safe request retries and message redelivery without violating data
+  integrity and without dependency on server-side sessions.
