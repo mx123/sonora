@@ -1,0 +1,23 @@
+id: NFR-0021
+title: Errors are standardized and localizable across channels
+status: approved
+category: reliability
+statement: >
+  All externally observable errors (HTTP APIs, UI surfaces, messaging failure events,
+  and adapter boundaries) must follow a single canonical error model. For HTTP,
+  errors must use RFC 9457 Problem Details (application/problem+json) and include
+  stable machine-readable error codes plus localization intent (translation key
+  and parameters). For non-HTTP channels, an aligned Problem envelope must be used.
+  User-facing text must be localizable via keys/params, with optional safe fallback
+  text when needed.
+metric: error_contract_violations
+target: "0"
+scope:
+  - backend
+  - frontend
+  - messaging
+  - adapters
+rationale: >
+  Prevents cross-domain inconsistency, enables localization without redeploying
+  UI bundles, improves supportability via stable codes and correlation IDs, and
+  reduces security risk from leaking internal details.

@@ -1,0 +1,9 @@
+id: DELTA-2026-01-25-003
+title: Standardize errors on RFC 9457 with localization intent (ADR-0007)
+status: applied
+changes:
+  - type: add
+    target: NFR-0021
+compatibility:
+  claim: non-breaking
+  rationale: "Adds a new cross-cutting NFR; no changes to existing requirements."
