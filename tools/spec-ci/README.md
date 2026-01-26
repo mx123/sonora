@@ -12,6 +12,10 @@ From repo root:
 
 - `python3 tools/spec-ci/validate.py`
 
+## Generate derived artifacts (local)
+
+- Structurizr (Mermaid diagrams): `python3 tools/spec-ci/generate_structurizr.py`
+
 ## What it enforces (baseline)
 
 - JSON Schema validation for BV/CAP/BR/NFR, deltas, trace-links
