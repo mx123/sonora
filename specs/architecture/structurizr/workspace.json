@@ -1,0 +1,393 @@
+{
+  "configuration" : { },
+  "description" : "C4 model derived from specs/architecture and CAP requirements.",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedAgent" : "structurizr-ui",
+  "lastModifiedDate" : "2026-01-26T07:04:11Z",
+  "model" : {
+    "people" : [ {
+      "description" : "End user of the product.",
+      "id" : "1",
+      "name" : "User",
+      "properties" : {
+        "structurizr.dsl.identifier" : "user"
+      },
+      "relationships" : [ {
+        "description" : "Uses",
+        "destinationId" : "3",
+        "id" : "10",
+        "sourceId" : "1",
+        "tags" : "Relationship",
+        "technology" : "HTTPS"
+      }, {
+        "description" : "Uses",
+        "destinationId" : "2",
+        "id" : "11",
+        "linkedRelationshipId" : "10",
+        "sourceId" : "1",
+        "technology" : "HTTPS"
+      } ],
+      "tags" : "Element,Person"
+    } ],
+    "softwareSystems" : [ {
+      "containers" : [ {
+        "description" : "Owns global navigation, authentication integration, theming, and composes domain UI modules.",
+        "documentation" : { },
+        "id" : "3",
+        "name" : "Shell Application",
+        "properties" : {
+          "structurizr.dsl.identifier" : "shell"
+        },
+        "relationships" : [ {
+          "description" : "Loads & mounts",
+          "destinationId" : "4",
+          "id" : "12",
+          "sourceId" : "3",
+          "tags" : "Relationship",
+          "technology" : "Entrypoint contract"
+        }, {
+          "description" : "Authenticates / refreshes",
+          "destinationId" : "6",
+          "id" : "13",
+          "sourceId" : "3",
+          "tags" : "Relationship",
+          "technology" : "OIDC/OAuth2"
+        } ],
+        "tags" : "Element,Container,Shell",
+        "technology" : "Web/Mobile App"
+      }, {
+        "description" : "Independently delivered UI modules integrated only via the Shell entrypoint contract (e.g., mount(context)).",
+        "documentation" : { },
+        "id" : "4",
+        "name" : "Domain UI Modules",
+        "properties" : {
+          "structurizr.dsl.identifier" : "domainUIs"
+        },
+        "relationships" : [ {
+          "description" : "Calls APIs with access token",
+          "destinationId" : "5",
+          "id" : "14",
+          "sourceId" : "4",
+          "tags" : "Relationship",
+          "technology" : "HTTPS + JWT (access)"
+        }, {
+          "description" : "(Optional) calls domain API directly",
+          "destinationId" : "7",
+          "id" : "18",
+          "sourceId" : "4",
+          "tags" : "Relationship",
+          "technology" : "HTTPS + JWT (access)"
+        }, {
+          "description" : "(Optional) calls domain API directly",
+          "destinationId" : "8",
+          "id" : "19",
+          "sourceId" : "4",
+          "tags" : "Relationship",
+          "technology" : "HTTPS + JWT (access)"
+        }, {
+          "description" : "(Optional) calls domain API directly",
+          "destinationId" : "9",
+          "id" : "20",
+          "sourceId" : "4",
+          "tags" : "Relationship",
+          "technology" : "HTTPS + JWT (access)"
+        } ],
+        "tags" : "Element,Container,DomainUI",
+        "technology" : "Federated UI Modules"
+      }, {
+        "description" : "Edge/API aggregation layer. Does not replace domain-level authorization.",
+        "documentation" : { },
+        "id" : "5",
+        "name" : "API Gateway / BFF (optional)",
+        "properties" : {
+          "structurizr.dsl.identifier" : "gateway"
+        },
+        "relationships" : [ {
+          "description" : "Routes requests",
+          "destinationId" : "7",
+          "id" : "15",
+          "sourceId" : "5",
+          "tags" : "Relationship",
+          "technology" : "HTTPS + JWT (access)"
+        }, {
+          "description" : "Routes requests",
+          "destinationId" : "8",
+          "id" : "16",
+          "sourceId" : "5",
+          "tags" : "Relationship",
+          "technology" : "HTTPS + JWT (access)"
+        }, {
+          "description" : "Routes requests",
+          "destinationId" : "9",
+          "id" : "17",
+          "sourceId" : "5",
+          "tags" : "Relationship",
+          "technology" : "HTTPS + JWT (access)"
+        } ],
+        "tags" : "Element,Container,Gateway",
+        "technology" : "HTTP API"
+      }, {
+        "description" : "Sole issuer of access tokens (JWT) and refresh tokens. Publishes JWKS and rotates keys.",
+        "documentation" : { },
+        "id" : "6",
+        "name" : "Auth Domain",
+        "properties" : {
+          "structurizr.dsl.identifier" : "auth"
+        },
+        "tags" : "Element,Container,Auth",
+        "technology" : "Service"
+      }, {
+        "description" : "Inventory APIs. Validates JWT locally using cached JWKS.",
+        "documentation" : { },
+        "id" : "7",
+        "name" : "Inventory Domain Service",
+        "properties" : {
+          "structurizr.dsl.identifier" : "inventory"
+        },
+        "relationships" : [ {
+          "description" : "Periodically fetches JWKS",
+          "destinationId" : "6",
+          "id" : "21",
+          "sourceId" : "7",
+          "tags" : "Relationship",
+          "technology" : "HTTPS"
+        } ],
+        "tags" : "Element,Container,DomainService",
+        "technology" : "Service"
+      }, {
+        "description" : "Cart APIs. Validates JWT locally using cached JWKS.",
+        "documentation" : { },
+        "id" : "8",
+        "name" : "Shopping Cart Domain Service",
+        "properties" : {
+          "structurizr.dsl.identifier" : "cart"
+        },
+        "relationships" : [ {
+          "description" : "Periodically fetches JWKS",
+          "destinationId" : "6",
+          "id" : "22",
+          "sourceId" : "8",
+          "tags" : "Relationship",
+          "technology" : "HTTPS"
+        } ],
+        "tags" : "Element,Container,DomainService",
+        "technology" : "Service"
+      }, {
+        "description" : "Tracking APIs. Validates JWT locally using cached JWKS.",
+        "documentation" : { },
+        "id" : "9",
+        "name" : "Tracking Domain Service",
+        "properties" : {
+          "structurizr.dsl.identifier" : "tracking"
+        },
+        "relationships" : [ {
+          "description" : "Periodically fetches JWKS",
+          "destinationId" : "6",
+          "id" : "23",
+          "sourceId" : "9",
+          "tags" : "Relationship",
+          "technology" : "HTTPS"
+        } ],
+        "tags" : "Element,Container,DomainService",
+        "technology" : "Service"
+      } ],
+      "description" : "Distributed domain services with a Shell-composed UI.",
+      "documentation" : { },
+      "id" : "2",
+      "name" : "KX Platform",
+      "properties" : {
+        "structurizr.dsl.identifier" : "platform"
+      },
+      "tags" : "Element,Software System,SoftwareSystem"
+    } ]
+  },
+  "name" : "KX Platform",
+  "properties" : {
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.error" : "3",
+    "structurizr.inspection.warning" : "0",
+    "structurizr.dsl" : "d29ya3NwYWNlICJLWCBQbGF0Zm9ybSIgIkM0IG1vZGVsIGRlcml2ZWQgZnJvbSBzcGVjcy9hcmNoaXRlY3R1cmUgYW5kIENBUCByZXF1aXJlbWVudHMuIiB7CgogIG1vZGVsIHsKICAgIHVzZXIgPSBwZXJzb24gIlVzZXIiICJFbmQgdXNlciBvZiB0aGUgcHJvZHVjdC4iIHsKICAgICAgdGFncyAiUGVyc29uIgogICAgfQoKICAgIHBsYXRmb3JtID0gc29mdHdhcmVTeXN0ZW0gIktYIFBsYXRmb3JtIiAiRGlzdHJpYnV0ZWQgZG9tYWluIHNlcnZpY2VzIHdpdGggYSBTaGVsbC1jb21wb3NlZCBVSS4iIHsKICAgICAgdGFncyAiU29mdHdhcmVTeXN0ZW0iCgogICAgICBzaGVsbCA9IGNvbnRhaW5lciAiU2hlbGwgQXBwbGljYXRpb24iICJPd25zIGdsb2JhbCBuYXZpZ2F0aW9uLCBhdXRoZW50aWNhdGlvbiBpbnRlZ3JhdGlvbiwgdGhlbWluZywgYW5kIGNvbXBvc2VzIGRvbWFpbiBVSSBtb2R1bGVzLiIgIldlYi9Nb2JpbGUgQXBwIiB7CiAgICAgICAgdGFncyAiQ29udGFpbmVyLFNoZWxsIgogICAgICB9CgogICAgICBkb21haW5VSXMgPSBjb250YWluZXIgIkRvbWFpbiBVSSBNb2R1bGVzIiAiSW5kZXBlbmRlbnRseSBkZWxpdmVyZWQgVUkgbW9kdWxlcyBpbnRlZ3JhdGVkIG9ubHkgdmlhIHRoZSBTaGVsbCBlbnRyeXBvaW50IGNvbnRyYWN0IChlLmcuLCBtb3VudChjb250ZXh0KSkuIiAiRmVkZXJhdGVkIFVJIE1vZHVsZXMiIHsKICAgICAgICB0YWdzICJDb250YWluZXIsRG9tYWluVUkiCiAgICAgIH0KCiAgICAgIGdhdGV3YXkgPSBjb250YWluZXIgIkFQSSBHYXRld2F5IC8gQkZGIChvcHRpb25hbCkiICJFZGdlL0FQSSBhZ2dyZWdhdGlvbiBsYXllci4gRG9lcyBub3QgcmVwbGFjZSBkb21haW4tbGV2ZWwgYXV0aG9yaXphdGlvbi4iICJIVFRQIEFQSSIgewogICAgICAgIHRhZ3MgIkNvbnRhaW5lcixHYXRld2F5IgogICAgICB9CgogICAgICBhdXRoID0gY29udGFpbmVyICJBdXRoIERvbWFpbiIgIlNvbGUgaXNzdWVyIG9mIGFjY2VzcyB0b2tlbnMgKEpXVCkgYW5kIHJlZnJlc2ggdG9rZW5zLiBQdWJsaXNoZXMgSldLUyBhbmQgcm90YXRlcyBrZXlzLiIgIlNlcnZpY2UiIHsKICAgICAgICB0YWdzICJDb250YWluZXIsQXV0aCIKICAgICAgfQoKICAgICAgaW52ZW50b3J5ID0gY29udGFpbmVyICJJbnZlbnRvcnkgRG9tYWluIFNlcnZpY2UiICJJbnZlbnRvcnkgQVBJcy4gVmFsaWRhdGVzIEpXVCBsb2NhbGx5IHVzaW5nIGNhY2hlZCBKV0tTLiIgIlNlcnZpY2UiIHsKICAgICAgICB0YWdzICJDb250YWluZXIsRG9tYWluU2VydmljZSIKICAgICAgfQoKICAgICAgY2FydCA9IGNvbnRhaW5lciAiU2hvcHBpbmcgQ2FydCBEb21haW4gU2VydmljZSIgIkNhcnQgQVBJcy4gVmFsaWRhdGVzIEpXVCBsb2NhbGx5IHVzaW5nIGNhY2hlZCBKV0tTLiIgIlNlcnZpY2UiIHsKICAgICAgICB0YWdzICJDb250YWluZXIsRG9tYWluU2VydmljZSIKICAgICAgfQoKICAgICAgdHJhY2tpbmcgPSBjb250YWluZXIgIlRyYWNraW5nIERvbWFpbiBTZXJ2aWNlIiAiVHJhY2tpbmcgQVBJcy4gVmFsaWRhdGVzIEpXVCBsb2NhbGx5IHVzaW5nIGNhY2hlZCBKV0tTLiIgIlNlcnZpY2UiIHsKICAgICAgICB0YWdzICJDb250YWluZXIsRG9tYWluU2VydmljZSIKICAgICAgfQogICAgfQoKICAgIHVzZXIgLT4gc2hlbGwgIlVzZXMiICJIVFRQUyIKCiAgICBzaGVsbCAtPiBkb21haW5VSXMgIkxvYWRzICYgbW91bnRzIiAiRW50cnlwb2ludCBjb250cmFjdCIKCiAgICBzaGVsbCAtPiBhdXRoICJBdXRoZW50aWNhdGVzIC8gcmVmcmVzaGVzIiAiT0lEQy9PQXV0aDIiCgogICAgZG9tYWluVUlzIC0+IGdhdGV3YXkgIkNhbGxzIEFQSXMgd2l0aCBhY2Nlc3MgdG9rZW4iICJIVFRQUyArIEpXVCAoYWNjZXNzKSIKICAgIGdhdGV3YXkgLT4gaW52ZW50b3J5ICJSb3V0ZXMgcmVxdWVzdHMiICJIVFRQUyArIEpXVCAoYWNjZXNzKSIKICAgIGdhdGV3YXkgLT4gY2FydCAiUm91dGVzIHJlcXVlc3RzIiAiSFRUUFMgKyBKV1QgKGFjY2VzcykiCiAgICBnYXRld2F5IC0+IHRyYWNraW5nICJSb3V0ZXMgcmVxdWVzdHMiICJIVFRQUyArIEpXVCAoYWNjZXNzKSIKCiAgICBkb21haW5VSXMgLT4gaW52ZW50b3J5ICIoT3B0aW9uYWwpIGNhbGxzIGRvbWFpbiBBUEkgZGlyZWN0bHkiICJIVFRQUyArIEpXVCAoYWNjZXNzKSIKICAgIGRvbWFpblVJcyAtPiBjYXJ0ICIoT3B0aW9uYWwpIGNhbGxzIGRvbWFpbiBBUEkgZGlyZWN0bHkiICJIVFRQUyArIEpXVCAoYWNjZXNzKSIKICAgIGRvbWFpblVJcyAtPiB0cmFja2luZyAiKE9wdGlvbmFsKSBjYWxscyBkb21haW4gQVBJIGRpcmVjdGx5IiAiSFRUUFMgKyBKV1QgKGFjY2VzcykiCgogICAgaW52ZW50b3J5IC0+IGF1dGggIlBlcmlvZGljYWxseSBmZXRjaGVzIEpXS1MiICJIVFRQUyIKICAgIGNhcnQgLT4gYXV0aCAiUGVyaW9kaWNhbGx5IGZldGNoZXMgSldLUyIgIkhUVFBTIgogICAgdHJhY2tpbmcgLT4gYXV0aCAiUGVyaW9kaWNhbGx5IGZldGNoZXMgSldLUyIgIkhUVFBTIgogIH0KCiAgdmlld3MgewogICAgc3lzdGVtQ29udGV4dCBwbGF0Zm9ybSAiU3lzdGVtQ29udGV4dCIgIlN5c3RlbSBjb250ZXh0IChDNCkiIHsKICAgICAgaW5jbHVkZSB1c2VyCiAgICAgIGluY2x1ZGUgcGxhdGZvcm0KICAgICAgYXV0b2xheW91dCBscgogICAgfQoKICAgIGNvbnRhaW5lciBwbGF0Zm9ybSAiQ29udGFpbmVycyIgIkNvbnRhaW5lciBkaWFncmFtIChDNCkiIHsKICAgICAgaW5jbHVkZSB1c2VyCiAgICAgIGluY2x1ZGUgKgogICAgICBhdXRvbGF5b3V0IGxyCiAgICB9CgogICAgc3R5bGVzIHsKICAgICAgZWxlbWVudCAiUGVyc29uIiB7CiAgICAgICAgc2hhcGUgcGVyc29uCiAgICAgICAgYmFja2dyb3VuZCAiIzA4NDI3YiIKICAgICAgICBjb2xvciAiI2ZmZmZmZiIKICAgICAgfQoKICAgICAgZWxlbWVudCAiU29mdHdhcmVTeXN0ZW0iIHsKICAgICAgICBiYWNrZ3JvdW5kICIjMTE2OGJkIgogICAgICAgIGNvbG9yICIjZmZmZmZmIgogICAgICB9CgogICAgICBlbGVtZW50ICJDb250YWluZXIiIHsKICAgICAgICBiYWNrZ3JvdW5kICIjNDM4ZGQ1IgogICAgICAgIGNvbG9yICIjZmZmZmZmIgogICAgICB9CgogICAgICBlbGVtZW50ICJTaGVsbCIgewogICAgICAgIGJhY2tncm91bmQgIiMyZDkzNmMiCiAgICAgICAgY29sb3IgIiNmZmZmZmYiCiAgICAgIH0KCiAgICAgIGVsZW1lbnQgIkRvbWFpblVJIiB7CiAgICAgICAgYmFja2dyb3VuZCAiIzNhN2NhNSIKICAgICAgICBjb2xvciAiI2ZmZmZmZiIKICAgICAgfQoKICAgICAgZWxlbWVudCAiQXV0aCIgewogICAgICAgIGJhY2tncm91bmQgIiM3YjJjYmYiCiAgICAgICAgY29sb3IgIiNmZmZmZmYiCiAgICAgIH0KCiAgICAgIGVsZW1lbnQgIkRvbWFpblNlcnZpY2UiIHsKICAgICAgICBiYWNrZ3JvdW5kICIjMWY3YThjIgogICAgICAgIGNvbG9yICIjZmZmZmZmIgogICAgICB9CgogICAgICBlbGVtZW50ICJHYXRld2F5IiB7CiAgICAgICAgYmFja2dyb3VuZCAiI2ZmN2YxMSIKICAgICAgICBjb2xvciAiIzExMTExMSIKICAgICAgfQogICAgfQogIH0KfQ=="
+  },
+  "views" : {
+    "configuration" : {
+      "branding" : { },
+      "lastSavedView" : "Containers",
+      "metadataSymbols" : "SquareBrackets",
+      "styles" : {
+        "elements" : [ {
+          "background" : "#7b2cbf",
+          "color" : "#ffffff",
+          "tag" : "Auth"
+        }, {
+          "background" : "#438dd5",
+          "color" : "#ffffff",
+          "tag" : "Container"
+        }, {
+          "background" : "#1f7a8c",
+          "color" : "#ffffff",
+          "tag" : "DomainService"
+        }, {
+          "background" : "#3a7ca5",
+          "color" : "#ffffff",
+          "tag" : "DomainUI"
+        }, {
+          "background" : "#ff7f11",
+          "color" : "#111111",
+          "tag" : "Gateway"
+        }, {
+          "background" : "#08427b",
+          "color" : "#ffffff",
+          "shape" : "Person",
+          "tag" : "Person"
+        }, {
+          "background" : "#2d936c",
+          "color" : "#ffffff",
+          "tag" : "Shell"
+        }, {
+          "background" : "#1168bd",
+          "color" : "#ffffff",
+          "tag" : "SoftwareSystem"
+        } ]
+      },
+      "terminology" : { }
+    },
+    "containerViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "description" : "Container diagram (C4)",
+      "dimensions" : {
+        "height" : 2149,
+        "width" : 4570
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 199,
+        "y" : 309
+      }, {
+        "id" : "3",
+        "x" : 899,
+        "y" : 359
+      }, {
+        "id" : "4",
+        "x" : 1649,
+        "y" : 730
+      }, {
+        "id" : "5",
+        "x" : 2399,
+        "y" : 730
+      }, {
+        "id" : "6",
+        "x" : 3899,
+        "y" : 592
+      }, {
+        "id" : "7",
+        "x" : 3149,
+        "y" : 292
+      }, {
+        "id" : "8",
+        "x" : 3149,
+        "y" : 1492
+      }, {
+        "id" : "9",
+        "x" : 3149,
+        "y" : 892
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "Containers",
+      "name" : "Container View: KX Platform",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "10"
+      }, {
+        "id" : "12"
+      }, {
+        "id" : "13",
+        "vertices" : [ {
+          "x" : 3149,
+          "y" : 142
+        }, {
+          "x" : 3599,
+          "y" : 142
+        } ]
+      }, {
+        "id" : "14"
+      }, {
+        "id" : "15"
+      }, {
+        "id" : "16"
+      }, {
+        "id" : "17"
+      }, {
+        "id" : "18",
+        "vertices" : [ {
+          "x" : 2399,
+          "y" : 580
+        } ]
+      }, {
+        "id" : "19",
+        "vertices" : [ {
+          "x" : 2399,
+          "y" : 1255
+        } ]
+      }, {
+        "id" : "20",
+        "vertices" : [ {
+          "x" : 2399,
+          "y" : 1180
+        }, {
+          "x" : 2849,
+          "y" : 1180
+        } ]
+      }, {
+        "id" : "21"
+      }, {
+        "id" : "22"
+      }, {
+        "id" : "23"
+      } ],
+      "softwareSystemId" : "2"
+    } ],
+    "systemContextViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "description" : "System context (C4)",
+      "dimensions" : {
+        "height" : 800,
+        "width" : 1550
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 200,
+        "y" : 143
+      }, {
+        "id" : "2",
+        "x" : 900,
+        "y" : 193
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "SystemContext",
+      "name" : "System Context View: KX Platform",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "11"
+      } ],
+      "softwareSystemId" : "2"
+    } ]
+  }
+}

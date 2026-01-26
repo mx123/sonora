@@ -1,0 +1,43 @@
+graph LR
+  linkStyle default fill:#ffffff
+
+  subgraph diagram ["Container View: KX Platform"]
+    style diagram fill:#ffffff,stroke:#ffffff
+
+    1["<div style='font-weight: bold'>User</div><div style='font-size: 70%; margin-top: 0px'>[Person]</div><div style='font-size: 80%; margin-top:10px'>End user of the product.</div>"]
+    style 1 fill:#08427b,stroke:#052e56,color:#ffffff
+
+    subgraph 2 ["KX Platform"]
+      style 2 fill:#ffffff,stroke:#0b4884,color:#0b4884
+
+      3["<div style='font-weight: bold'>Shell Application</div><div style='font-size: 70%; margin-top: 0px'>[Container: Web/Mobile App]</div><div style='font-size: 80%; margin-top:10px'>Owns global navigation,<br />authentication integration,<br />theming, and composes domain<br />UI modules.</div>"]
+      style 3 fill:#2d936c,stroke:#1f664b,color:#ffffff
+      4["<div style='font-weight: bold'>Domain UI Modules</div><div style='font-size: 70%; margin-top: 0px'>[Container: Federated UI Modules]</div><div style='font-size: 80%; margin-top:10px'>Independently delivered UI<br />modules integrated only via<br />the Shell entrypoint contract<br />(e.g., mount(context)).</div>"]
+      style 4 fill:#3a7ca5,stroke:#285673,color:#ffffff
+      5["<div style='font-weight: bold'>API Gateway / BFF (optional)</div><div style='font-size: 70%; margin-top: 0px'>[Container: HTTP API]</div><div style='font-size: 80%; margin-top:10px'>Edge/API aggregation layer.<br />Does not replace domain-level<br />authorization.</div>"]
+      style 5 fill:#ff7f11,stroke:#b2580b,color:#111111
+      6["<div style='font-weight: bold'>Auth Domain</div><div style='font-size: 70%; margin-top: 0px'>[Container: Service]</div><div style='font-size: 80%; margin-top:10px'>Sole issuer of access tokens<br />(JWT) and refresh tokens.<br />Publishes JWKS and rotates<br />keys.</div>"]
+      style 6 fill:#7b2cbf,stroke:#561e85,color:#ffffff
+      7["<div style='font-weight: bold'>Inventory Domain Service</div><div style='font-size: 70%; margin-top: 0px'>[Container: Service]</div><div style='font-size: 80%; margin-top:10px'>Inventory APIs. Validates JWT<br />locally using cached JWKS.</div>"]
+      style 7 fill:#1f7a8c,stroke:#155562,color:#ffffff
+      8["<div style='font-weight: bold'>Shopping Cart Domain Service</div><div style='font-size: 70%; margin-top: 0px'>[Container: Service]</div><div style='font-size: 80%; margin-top:10px'>Cart APIs. Validates JWT<br />locally using cached JWKS.</div>"]
+      style 8 fill:#1f7a8c,stroke:#155562,color:#ffffff
+      9["<div style='font-weight: bold'>Tracking Domain Service</div><div style='font-size: 70%; margin-top: 0px'>[Container: Service]</div><div style='font-size: 80%; margin-top:10px'>Tracking APIs. Validates JWT<br />locally using cached JWKS.</div>"]
+      style 9 fill:#1f7a8c,stroke:#155562,color:#ffffff
+    end
+
+    1-. "<div>Uses</div><div style='font-size: 70%'>[HTTPS]</div>" .->3
+    3-. "<div>Loads & mounts</div><div style='font-size: 70%'>[Entrypoint contract]</div>" .->4
+    3-. "<div>Authenticates / refreshes</div><div style='font-size: 70%'>[OIDC/OAuth2]</div>" .->6
+    4-. "<div>Calls APIs with access token</div><div style='font-size: 70%'>[HTTPS + JWT (access)]</div>" .->5
+    5-. "<div>Routes requests</div><div style='font-size: 70%'>[HTTPS + JWT (access)]</div>" .->7
+    5-. "<div>Routes requests</div><div style='font-size: 70%'>[HTTPS + JWT (access)]</div>" .->8
+    5-. "<div>Routes requests</div><div style='font-size: 70%'>[HTTPS + JWT (access)]</div>" .->9
+    4-. "<div>(Optional) calls domain API<br />directly</div><div style='font-size: 70%'>[HTTPS + JWT (access)]</div>" .->7
+    4-. "<div>(Optional) calls domain API<br />directly</div><div style='font-size: 70%'>[HTTPS + JWT (access)]</div>" .->8
+    4-. "<div>(Optional) calls domain API<br />directly</div><div style='font-size: 70%'>[HTTPS + JWT (access)]</div>" .->9
+    7-. "<div>Periodically fetches JWKS</div><div style='font-size: 70%'>[HTTPS]</div>" .->6
+    8-. "<div>Periodically fetches JWKS</div><div style='font-size: 70%'>[HTTPS]</div>" .->6
+    9-. "<div>Periodically fetches JWKS</div><div style='font-size: 70%'>[HTTPS]</div>" .->6
+
+  end
