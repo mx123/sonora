@@ -1,0 +1,26 @@
+id: repo.specs
+
+entrypoints:
+  - id: entry.docs.adr
+    path: docs/adr/
+
+  - id: entry.docs.derived
+    path: docs/derived/
+
+  - id: entry.specs
+    path: specs/
+
+  - id: entry.specs.rules
+    path: specs/rules/
+
+  - id: entry.tools.spec-ci
+    path: tools/spec-ci/
+
+qualityGates:
+  - id: qg.specs.validate
+  - id: qg.docs.derived.verify
+  - id: qg.arch.boundaries
+  - id: qg.tests.unit
+  - id: qg.tests.contract
+  - id: qg.quality.lint
+  - id: qg.security.sast

@@ -7,8 +7,7 @@
 We are building a greenfield product that must evolve from a **fully functional monolith** into a **highly distributed system**, while keeping the ability to run as a monolith (with limited throughput) at any point in time.
 
 Key constraints:
-- Frontend: Web (TypeScript + Vite + React), Mobile (Flutter)
-- Backend: Java 21+, Spring Boot, Ports & Adapters (Hexagonal)
+- The system includes web and mobile frontends and a multi-domain backend.
 - Infrastructure (DB/messaging/object storage) is deployment-dependent and not part of the core project; the project contains only adapters and integration contracts.
 
 We also adopt a Spec-Driven Development approach supported by EventStorming concepts as a minimal alphabet of domain behavior:

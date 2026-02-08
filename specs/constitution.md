@@ -127,16 +127,17 @@ This means:
 For the purpose of activating implementation-oriented gates (see ADR-0002), the codebase is considered present when any of the following is true:
 
 - **Backend active** when:
-  - a JVM app exists under `apps/` with a build descriptor (`build.gradle(.kts)` or `pom.xml`), AND
-  - at least one file exists under `apps/**/src/main/java/`.
+   - at least one backend application/module exists with a build descriptor (tool/language-specific), AND
+   - at least one production source file exists (excluding tests).
+   - The exact descriptors and source roots are a CI detection detail and MUST remain toolchain-agnostic.
 
 - **Web frontend active** when:
-  - `frontends/web/package.json` exists, AND
-  - at least one file exists under `frontends/web/src/`.
+   - at least one web frontend application/module exists with a build descriptor, AND
+   - at least one production source file exists (excluding tests).
 
 - **Mobile frontend active** when:
-  - `frontends/mobile/pubspec.yaml` exists, AND
-  - at least one file exists under `frontends/mobile/lib/`.
+   - at least one mobile frontend application/module exists with a build descriptor, AND
+   - at least one production source file exists (excluding tests).
 
 ## 7) Tooling & Enforcement
 

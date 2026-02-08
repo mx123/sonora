@@ -9,10 +9,10 @@ ADR-0008 defines the shell backend composition model and introduces optional sta
 
 Some domains will be **stateful** and need persistence. Some domains will benefit from caching.
 
-Constraints from ADR-0004 apply:
+Constraints from the architecture baseline apply:
 
 - Persistence is a domain boundary.
-- Spring and technology integrations live in domain `infrastructure`.
+- Framework and technology integrations live in domain `infrastructure`.
 
 This ADR defines how persistence and caching are provided as replaceable starters without violating domain boundaries.
 

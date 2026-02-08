@@ -1,4 +1,4 @@
-# : Stateless JWT-based Authentication and Authorization for Distributed Domain Services
+# ADR-0005: Stateless JWT-based Authentication and Authorization for Distributed Domain Services
 
 - Status: Accepted
 - Date: 2026-01-25
@@ -144,4 +144,4 @@ API Gateway / BFF (optional)
 - Long-lived access tokens (rejected: security risk)
 
 ## Notes
-This ADR is compatible with OAuth 2.0 / OpenID Connect profiles and can be implemented using Spring Security, Quarkus, or Micronaut with minimal adaptation.
+This ADR is compatible with OAuth 2.0 / OpenID Connect profiles and can be implemented using any stack that supports JWT validation and JWKS key distribution.

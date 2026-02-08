@@ -7,11 +7,11 @@
 
 This project is designed to evolve from a **modular monolith** into a **partially / fully distributed system** while preserving the ability to run multiple domains together and to extract a domain into an independent service later.
 
-ADR-0004 established the monorepo and domain boundaries:
+Earlier decisions established domain boundary principles:
 
-- Each domain module is a potential service.
-- Domains follow a fixed module structure (`api`, `domain`, `application`, `infrastructure`).
-- `domain` and `application` are framework-free.
+- Each domain is a potential service.
+- Domains separate API contracts, domain core, application orchestration, and infrastructure wiring.
+- Domain core and application logic are framework-free.
 - Domains do not depend on each other directly; interaction happens only through `api`.
 - Persistence is a domain boundary.
 
@@ -30,21 +30,21 @@ Important constraints:
 
 ## Decision
 
-We will implement backend composition as a **Shell Backend** pattern that composes domains using **build-time inclusion** and **Spring Boot autoconfiguration**.
+We will implement backend composition as a **Shell Backend** pattern that composes domains using **build-time inclusion** and an explicit **domain container registration** contract.
 
 ### Core Principles
 
 - **Build-time composition is the primary mechanism.** A domain is “included” if its infrastructure module is present on the application classpath. Runtime toggles may exist, but are explicitly secondary.
-- **Spring is confined to infrastructure.** Domain and application layers remain framework-free (as per ADR-0004).
+- **Framework code is confined to infrastructure wiring.** Domain and application layers remain framework-free.
 - **Backbone technologies are tech-agnostic.** Each starter provides a stable abstraction with pluggable implementations selected by configuration.
 - **REST-only external interface (for now).** The shell backend exposes REST APIs only. This does not prevent future adoption of other protocols via new ADRs.
 - **Compliance is testable.** Every rule below must be expressible as something that can be verified (tests and/or architecture rules).
 
 ### Composition Contract
 
-- The runtime composition lives in `apps/*` (per ADR-0004).
-- Each domain provides Spring Boot autoconfiguration in its `infrastructure` module.
-- A shell backend application includes a domain by adding a dependency on `domains/<domain>/infrastructure` (directly or via a domain starter artifact).
+- The runtime composition lives in the backend Shell App for a Service.
+- Each domain provides an explicit domain container registration entrypoint in its integration layer.
+- A shell backend application includes a domain by adding a build-time dependency on the domain container package/module (directly or via a domain starter artifact).
 
 ### Minimal Included / Excluded Semantics
 
@@ -126,15 +126,15 @@ This ADR is expected to transform into spec updates in these areas (see `specs/c
 1. **Runtime toggles as the primary composition mechanism**
    - Rejected: hides missing dependencies until runtime, makes compositions less reviewable and less testable.
 
-2. **Spring Modulith for module boundaries**
-   - Rejected: conflicts with portability/extraction goals (already rejected in ADR-0004).
+2. **Framework-specific module systems for module boundaries**
+   - Rejected: conflicts with portability/extraction goals.
 
 3. **Per-application bespoke wiring without shared starters**
    - Rejected: leads to inconsistent cross-cutting behavior and duplication across apps.
 
 ## Decision Drivers
 
-- Evolution from modular monolith to distributed system (ADR-0004).
+- Evolution from modular monolith to distributed system.
 - Need for partial domain compositions (shell/BFF as an instance, not a separate architecture).
 - Portability and extractability of domains.
 - Consistent cross-cutting behavior (auth, errors, trace, messaging).
@@ -142,6 +142,6 @@ This ADR is expected to transform into spec updates in these areas (see `specs/c
 
 ## Related Decisions
 
-- ADR-0004: Gradle Monorepo for Evolutionary Transition from Modular Monolith to Distributed System
+- ADR-0016: Multi-repo baseline and tool-neutral quality gates
 - ADR-0005: Stateless JWT in Distributed Domains
 - ADR-0007: RFC 9457 Error Handling with i18n
