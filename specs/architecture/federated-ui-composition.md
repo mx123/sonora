@@ -27,7 +27,7 @@ experience.
 Domains MUST integrate with the Shell only through an explicit entrypoint.
 
 Minimum contract requirements:
-- Domain UI MUST expose an entrypoint callable by the Shell (e.g., `mount(context)`)
+- Domain UI MUST expose an entrypoint callable by the Shell (e.g., `entrypoint(context)`)
   that renders into a container controlled by the Shell.
 - The Shell MUST pass a minimal `context` containing only:
   - navigation facade (Shell-owned)
@@ -69,3 +69,6 @@ Not allowed:
 
 References:
 - ADR-0006 (rationale): docs/adr/ADR-0006-Federated-UI-Composition.md
+
+Related:
+- Frontend shell contract: `specs/architecture/frontend-shells.md`

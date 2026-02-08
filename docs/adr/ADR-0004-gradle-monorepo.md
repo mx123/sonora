@@ -1,7 +1,11 @@
 # ADR-0004: Gradle Monorepo for Evolutionary Transition from Modular Monolith to Distributed System
 
-- Status: Accepted
+- Status: Superseded
 - Date: 2026-01-24
+
+Superseded by ADR-0016.
+
+Note: This ADR is retained as a historical record of an earlier, tool-specific direction. It is **not** part of the current, toolchain-agnostic baseline.
 
 ## Context
 

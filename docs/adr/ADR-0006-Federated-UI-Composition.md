@@ -6,8 +6,8 @@
 ## Context
 
 The system is a multi-domain service architecture where each domain owns:
-- A Web UI implemented as SPA (React + Vite + TypeScript)
-- A Mobile UI implemented in Flutter
+- A Web UI
+- A Mobile UI
 
 The system must:
 - Present a unified user experience across domains
@@ -29,7 +29,7 @@ We adopt a **Shell-based Federated UI Composition** model for both Web and Mobil
 4. Cross-domain communication is limited to events and navigation APIs.
 5. Shared UI libraries are restricted to stateless visual primitives.
 
-### Web (React SPA)
+### Web (SPA)
 
 - A central **Application Shell** is responsible for:
   - Layout
@@ -38,18 +38,15 @@ We adopt a **Shell-based Federated UI Composition** model for both Web and Mobil
   - Navigation
   - Theming
 
-- Each domain exposes a single runtime entry point:
-  ```ts
-  mount(context: DomainUIContext): DomainUIHandle
-  ```
+- Each domain exposes a single runtime entry point via an explicit contract (language-agnostic).
 
 - Domains are loaded dynamically and mounted by the Shell.
 - Direct imports between domain UI modules are forbidden.
 
-### Mobile (Flutter)
+### Mobile (Mobile App)
 
-- A central **Flutter App Shell** composes domain UI packages at compile time.
-- Each domain UI is implemented as an independent Flutter package.
+- A central **App Shell** composes domain UI packages at compile time.
+- Each domain UI is implemented as an independent package/module.
 - Domains expose a screen/router entry implementing a common interface.
 - Navigation and cross-domain communication are mediated via facades.
 
@@ -83,7 +80,7 @@ Disallowed mechanisms:
 
 ## Alternatives Considered
 
-1. **Global UI State (Redux/Bloc across domains)**
+1. **Global UI State shared across domains**
    - Rejected due to tight coupling and hidden dependencies
 
 2. **Direct Component Sharing Between Domains**
@@ -92,7 +89,7 @@ Disallowed mechanisms:
 3. **Backend-Driven UI Orchestration**
    - Rejected due to loss of frontend autonomy and increased latency
 
-4. **Full Micro-Frontend Frameworks (e.g., single-spa everywhere)**
+4. **Full micro-frontend frameworks everywhere**
    - Rejected as overly complex for the required level of federation
 
 ## Decision Drivers

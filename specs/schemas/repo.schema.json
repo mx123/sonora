@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/specs/schemas/repo.schema.json",
+  "title": "Repository index (repo.yaml)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "entrypoints", "qualityGates"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entrypoints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "path"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(entry\\.[a-z0-9][a-z0-9_.-]*)$"
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "qualityGates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(qg\\.[a-z0-9][a-z0-9_.-]*)$"
+          }
+        }
+      }
+    }
+  }
+}

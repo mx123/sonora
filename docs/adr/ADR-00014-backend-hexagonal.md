@@ -1,17 +1,17 @@
-# ADR-0001: Adopt Hexagonal Architecture for Backend Domains
+# ADR-0014: Adopt Hexagonal Architecture for Backend Domains
 
 - Status: Proposed
 - Date: 2026-01-27
 
 ## Context
 
-The project is a multi-domain Gradle-based system with a Java/Spring backend and PostgreSQL databases per domain.
+The project is a multi-domain backend system.
 The system is expected to evolve from a deployable monolith into a highly distributed architecture while preserving
-the ability to run in a monolithic mode with reduced load characteristics.
+the ability to run in a monolithic mode when appropriate.
 
 Key constraints and drivers include:
 - Long-lived and complex business domains with strict invariants
-- Multiple delivery mechanisms (HTTP APIs, async messaging, cloud functions)
+- Multiple delivery mechanisms (e.g., HTTP APIs, async messaging, scheduled jobs)
 - Infrastructure volatility (databases, messaging systems, deployment topology)
 - Need to prevent architectural erosion over time
 
@@ -38,14 +38,14 @@ while the domain core remains independent of frameworks, persistence, and delive
 - Strong isolation of business logic from technical concerns
 - Improved testability of domain logic without infrastructure dependencies
 - Enables gradual evolution from monolith to distributed architecture
-- Reduces coupling to Spring, JPA, and specific databases
+- Reduces coupling to specific frameworks, ORMs, and databases
 - Supports multiple adapters without modifying domain code
 
 ### Negative
 
 - Higher upfront design and modeling effort
 - Increased number of abstractions (ports, adapters)
-- Requires architectural discipline and enforcement (e.g., ArchUnit)
+- Requires architectural discipline and enforcement (e.g., architecture tests / static analysis)
 - Steeper learning curve for developers unfamiliar with hexagonal architecture
 
 ## Alternatives Considered
@@ -54,7 +54,7 @@ while the domain core remains independent of frameworks, persistence, and delive
    - Rejected due to high risk of business logic leaking into infrastructure layers
    - Poor resistance to long-term architectural erosion
 
-2. **Framework-Centric (Spring-Driven) Architecture**
+2. **Framework-Centric (Framework-driven) Architecture**
    - Rejected due to tight coupling between domain logic and framework APIs
    - Limits future adaptability and testability
 

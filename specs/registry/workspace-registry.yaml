@@ -1,0 +1,34 @@
+# Central multi-repo workspace registry (template)
+# This file is authoritative for discovery/integration conventions, but it is not a requirements model.
+
+id: WORKSPACE-0001
+status: proposed
+
+description: >
+  Workspace registry listing related repositories. Replace URLs/refs with real values.
+
+repos:
+  - id: repo.specs
+    url: CHANGE_ME
+    ref: main
+    gateMappingPath: specs/registry/gate-mapping.template.yaml
+
+  - id: repo.backend
+    url: CHANGE_ME
+    ref: main
+    gateMappingPath: specs/registry/gate-mapping.template.yaml
+
+  - id: repo.frontend.web
+    url: CHANGE_ME
+    ref: main
+    gateMappingPath: specs/registry/gate-mapping.template.yaml
+
+  - id: repo.frontend.mobile
+    url: CHANGE_ME
+    ref: main
+    optional: true
+    gateMappingPath: specs/registry/gate-mapping.template.yaml
+
+requirements:
+  repoIndex:
+    requiredPath: repo.yaml

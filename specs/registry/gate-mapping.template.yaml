@@ -1,0 +1,20 @@
+# Template: per-repository gate mapping (tool-specific, non-SSOT)
+# This file is referenced by the workspace registry. It is intentionally not part of repo.yaml.
+
+id: GATEMAP-0001
+status: draft
+
+repoId: repo.backend
+
+mappings:
+  - gateId: qg.tests.unit
+    implementation:
+      note: CHANGE_ME
+
+  - gateId: qg.arch.boundaries
+    implementation:
+      note: CHANGE_ME
+
+  - gateId: qg.tests.contract
+    implementation:
+      note: CHANGE_ME

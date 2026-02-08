@@ -1,11 +1,11 @@
-# ADR-0002: Use Layered Architecture with Feature / Domain Slicing for Frontend
+# ADR-0015: Use Layered Architecture with Feature / Domain Slicing for Frontend
 
 - Status: Proposed
 - Date: 2026-01-27
 
 ## Context
 
-The frontend is implemented using Vite, React, and TypeScript and serves as the primary user interface for backend domains.
+The frontend serves as the primary user interface for backend domains.
 Unlike the backend, the frontend does not own business invariants and is not a system of record.
 
 Key characteristics:
@@ -37,7 +37,7 @@ with clear internal layering for UI, state, and API interaction.
 
 - Reduced architectural overhead and cognitive load
 - Faster onboarding and feature development
-- Better alignment with React and modern frontend best practices
+- Better alignment with modern component-based frontend best practices
 - Clear ownership and isolation of feature-related changes
 - Avoids premature or artificial abstractions
 
@@ -61,5 +61,5 @@ with clear internal layering for UI, state, and API interaction.
 
 - Different nature and lifecycle of frontend code compared to backend
 - Need for development speed and flexibility
-- Alignment with ecosystem conventions (React, TypeScript)
+- Alignment with common frontend ecosystem conventions
 - Avoidance of unnecessary architectural complexity

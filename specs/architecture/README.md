@@ -9,3 +9,10 @@ Guidelines:
 
 Key specs:
 - Federated UI composition: `specs/architecture/federated-ui-composition.md`
+- Backend shell app contract: `specs/architecture/backend-shell-app.md`
+- Frontend shells contract: `specs/architecture/frontend-shells.md`
+
+Registry and integration:
+- Workspace registry (multi-repo): `specs/registry/workspace-registry.yaml`
+- Repository index contract (`repo.yaml`): `specs/rules/repo-index.md`
+- Quality gates catalog (`qg.*`): `specs/rules/quality-gates.md`
