@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bootstrap Configuration",
+  "description": "Configuration file for instantiating a new project from the meta-template.",
+  "type": "object",
+  "required": ["project", "repos"],
+  "properties": {
+    "project": {
+      "type": "object",
+      "required": ["name", "org", "errorBaseUri"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Project/platform display name (used in C4 model, docs).",
+          "examples": ["Acme Platform"]
+        },
+        "org": {
+          "type": "string",
+          "description": "Organization or team identifier.",
+          "examples": ["acme"]
+        },
+        "errorBaseUri": {
+          "type": "string",
+          "format": "uri",
+          "description": "Base URI for RFC 9457 error type URIs.",
+          "examples": ["https://errors.acme.com/"]
+        }
+      }
+    },
+    "repos": {
+      "type": "object",
+      "required": ["specs", "backend"],
+      "properties": {
+        "specs": {
+          "type": "string",
+          "format": "uri",
+          "description": "Git URL of the specs repository."
+        },
+        "backend": {
+          "type": "string",
+          "format": "uri",
+          "description": "Git URL of the backend repository."
+        },
+        "frontendWeb": {
+          "type": "string",
+          "format": "uri",
+          "description": "Git URL of the frontend web repository."
+        },
+        "frontendMobile": {
+          "type": "string",
+          "format": "uri",
+          "description": "Git URL of the frontend mobile repository (optional)."
+        }
+      }
+    },
+    "tech": {
+      "type": "object",
+      "description": "Technology stack selections. Optional — used for code conventions and gate mapping generation.",
+      "properties": {
+        "backend": {
+          "type": "object",
+          "properties": {
+            "lang": {
+              "type": "string",
+              "enum": ["kotlin", "java", "typescript", "go"],
+              "description": "Backend programming language."
+            },
+            "framework": {
+              "type": "string",
+              "enum": ["spring-boot", "quarkus", "micronaut", "ktor", "express", "nestjs", "gin"],
+              "description": "Backend framework."
+            }
+          }
+        },
+        "frontend": {
+          "type": "object",
+          "properties": {
+            "framework": {
+              "type": "string",
+              "enum": ["react", "vue", "angular", "svelte"],
+              "description": "Frontend framework."
+            }
+          }
+        },
+        "ci": {
+          "type": "string",
+          "enum": ["github-actions", "gitlab-ci", "jenkins", "azure-pipelines"],
+          "description": "CI/CD system."
+        },
+        "containerRegistry": {
+          "type": "string",
+          "description": "Container registry URL.",
+          "examples": ["ghcr.io/acme"]
+        }
+      }
+    },
+    "seed": {
+      "type": "string",
+      "enum": ["auth", "none"],
+      "default": "auth",
+      "description": "Seed package to bootstrap with. 'auth' includes the baseline Auth domain (DOM-0001, BV/CAP/BR, CMD/EVT). 'none' starts empty."
+    },
+    "domains": {
+      "type": "array",
+      "description": "Additional business domains to scaffold (beyond seed).",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Domain name (e.g., 'Billing', 'Catalog')."
+          },
+          "description": {
+            "type": "string",
+            "description": "Brief domain description."
+          }
+        }
+      }
+    }
+  }
+}

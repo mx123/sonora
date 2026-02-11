@@ -1,6 +1,6 @@
 id: NFR-0013
 title: Production data has enforced retention policies
-status: proposed
+status: approved
 category: compliance
 statement: >
   All production data must have a retention policy enforced, ensuring that databases

@@ -1,0 +1,16 @@
+id: DOM-0002
+status: proposed
+
+name: Example Domain
+
+description: >
+  Placeholder domain entry demonstrating the domain registration pattern.
+  Replace with a real business domain once requirements are defined.
+
+# Must exist in `specs/registry/workspace-registry.yaml`.
+repoId: repo.backend
+
+# These IDs must be declared in the backend repository root `repo.yaml`.
+entrypoints:
+  core: entry.domain.example.core
+  container: entry.domain.example.container

@@ -1,6 +1,6 @@
 id: NFR-0007
 title: Event collection is server-side and consolidated
-status: proposed
+status: approved
 category: observability
 statement: >
   All events must be collected once and on the server side.

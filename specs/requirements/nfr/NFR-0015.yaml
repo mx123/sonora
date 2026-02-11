@@ -1,6 +1,6 @@
 id: NFR-0015
 title: Backend is stateless; APIs and message handlers are idempotent
-status: proposed
+status: approved
 category: reliability
 statement: >
   The backend must be stateless (no state preservation between requests and no

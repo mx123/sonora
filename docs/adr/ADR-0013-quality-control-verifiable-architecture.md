@@ -1,7 +1,7 @@
 # ADR-0013: Quality Control and Verifiable Architecture
 
-- Status: Proposed
-- Date: 2026-01-26
+- Status: Accepted
+- Date: 2026-02-11
 
 ## Context
 

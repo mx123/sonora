@@ -1,0 +1,111 @@
+id: DELTA-2026-02-11-001
+title: Auth domain model, middleware specs, and ADR finalization
+status: proposed
+changes:
+  # Business rules
+  - type: add
+    target: BR-0003
+    description: "User activation requires inactive state"
+  - type: add
+    target: BR-0004
+    description: "User deactivation revokes active sessions"
+  - type: add
+    target: BR-0005
+    description: "Refresh token single-use and revocable"
+
+  # Capability trace expansion
+  - type: amend
+    target: CAP-0002
+    description: "Added domain trace links to auth commands/events (CMD-0002–0006, EVT-0002–0006)"
+
+  # Status progression: proposed → approved
+  - type: amend
+    target: BV-0001
+    description: "Status proposed → approved"
+  - type: amend
+    target: BV-0002
+    description: "Status proposed → approved"
+  - type: amend
+    target: BV-0003
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0001
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0002
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0003
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0004
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0005
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0006
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0007
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0008
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0009
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0010
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0011
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0012
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0013
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0014
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0015
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0016
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0017
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0018
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0019
+    description: "Status proposed → approved"
+  - type: amend
+    target: NFR-0020
+    description: "Status proposed → approved"
+
+  # Additional governed changes (outside delta target validation):
+  # - DOM-0001: restored as Auth domain (approved) with dual-role description
+  # - DOM-0002: Example Domain placeholder (proposed)
+  # - ADR-0009, ADR-0010, ADR-0011, ADR-0012: fully written (Accepted)
+  # - ADR-0013, ADR-0015: status changed to Accepted
+  # - specs/architecture/middleware/audit.md: new audit middleware contract
+  # - specs/architecture/middleware/cache.md: new cache middleware contract
+  # - specs/architecture/middleware/auth.md: added JWKS infrastructure dependency
+  # - specs/domain/commands.md: added CMD-0002–CMD-0006 (Auth domain)
+  # - specs/domain/events.md: added EVT-0002–EVT-0006 (Auth domain)
+  # - specs/rules/error-registry.md: error base URI set
+  # - specs/architecture/structurizr/workspace.dsl: Example Domain as DOM-0002
+  # - specs/requirements/trace-links.yaml: added CAP-0002→BR-0003/BR-0004/BR-0005
+
+compatibility:
+  claim: non-breaking
+  rationale: >
+    Adds new domain commands, events, business rules, middleware specs, and
+    trace links. Modifies ADR statuses. No existing requirements removed or
+    semantically changed.

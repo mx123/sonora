@@ -1,6 +1,6 @@
 id: NFR-0001
 title: Monolith mode supports limited load
-status: proposed
+status: approved
 category: scalability
 statement: >
   The system must be runnable as a functional monolith with reduced throughput.

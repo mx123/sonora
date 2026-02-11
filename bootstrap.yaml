@@ -1,0 +1,38 @@
+# Bootstrap configuration for project instantiation.
+# See specs/schemas/bootstrap.schema.json for full schema.
+#
+# Usage: python meta/tools/bootstrap.py --config bootstrap.yaml
+
+project:
+  name: "CHANGE_ME Platform"       # e.g., "Acme Platform"
+  org: "CHANGE_ME"                 # e.g., "acme"
+  errorBaseUri: "https://errors.CHANGE_ME.example.com/"
+
+repos:
+  specs: "CHANGE_ME"               # e.g., "https://github.com/acme/specs"
+  backend: "CHANGE_ME"             # e.g., "https://github.com/acme/backend"
+  frontendWeb: "CHANGE_ME"         # e.g., "https://github.com/acme/frontend-web"
+  # frontendMobile: ""             # optional
+
+# Technology stack (optional — enables code conventions and gate mapping generation)
+# tech:
+#   backend:
+#     lang: kotlin                 # kotlin | java | typescript | go
+#     framework: spring-boot       # spring-boot | quarkus | micronaut | ktor | express | nestjs | gin
+#   frontend:
+#     framework: react             # react | vue | angular | svelte
+#   ci: github-actions             # github-actions | gitlab-ci | jenkins | azure-pipelines
+#   containerRegistry: "ghcr.io/acme"
+
+# Seed package: 'auth' includes baseline Auth domain (DOM-0001, BV/CAP/BR, CMD/EVT).
+# Use 'none' to start with an empty project.
+seed: auth
+
+# Additional business domains to scaffold (optional).
+# Each domain gets a DOM-XXXX.yaml file, a section in commands.md/events.md, and
+# a skeleton entry in domains.yaml and workspace.dsl.
+# domains:
+#   - name: Billing
+#     description: "Subscription and payment management"
+#   - name: Catalog
+#     description: "Product catalog and search"

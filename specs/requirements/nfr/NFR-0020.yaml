@@ -1,6 +1,6 @@
 id: NFR-0020
 title: Federated UI composition enforces strict domain boundaries
-status: proposed
+status: approved
 category: maintainability
 statement: >
   When multiple domain-owned UIs are composed into one product, the composition

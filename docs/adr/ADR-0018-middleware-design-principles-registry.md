@@ -17,7 +17,7 @@ ADR-0014 (Hexagonal Architecture) requires that all infrastructure concerns — 
 Relevant governance:
 
 - Shell Backend composition: `docs/adr/ADR-0008-shell-backend-middleware-composition.md`
-- Hexagonal Architecture: `docs/adr/ADR-00014-backend-hexagonal.md`
+- Hexagonal Architecture: `docs/adr/ADR-0014-backend-hexagonal.md`
 - Domain composition and registration: `docs/adr/ADR-0017-domain-composition-and-registration.md`
 - Backend Shell App spec: `specs/architecture/backend-shell-app.md`
 - Multi-repo baseline: `docs/adr/ADR-0016-multi-repo-registry-quality-gates.md`

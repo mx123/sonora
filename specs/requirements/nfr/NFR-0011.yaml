@@ -1,6 +1,6 @@
 id: NFR-0011
 title: Production services use centralized secrets management
-status: proposed
+status: approved
 category: security
 statement: >
   All production services must use a centralized secrets service for secret storage

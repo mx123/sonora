@@ -1,6 +1,6 @@
 id: NFR-0008
 title: Correlation IDs are present end-to-end
-status: proposed
+status: approved
 category: observability
 statement: >
   All APIs, messages, database requests, logs, and other relevant operations must carry a

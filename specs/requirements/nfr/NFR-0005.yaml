@@ -1,6 +1,6 @@
 id: NFR-0005
 title: Services are independently deployable and recoverable
-status: proposed
+status: approved
 category: reliability
 statement: >
   Services must be independently deployable without disruptions to other services.

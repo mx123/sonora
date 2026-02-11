@@ -1,6 +1,6 @@
 id: NFR-0002
 title: Acceptance tests become mandatory when code appears
-status: proposed
+status: approved
 category: quality-gates
 statement: >
   Once backend/frontend code is present, acceptance tests must exist and pass in CI

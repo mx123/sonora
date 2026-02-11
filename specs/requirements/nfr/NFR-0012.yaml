@@ -1,6 +1,6 @@
 id: NFR-0012
 title: Services support dynamic configuration without deployment
-status: proposed
+status: approved
 category: operability
 statement: >
   All services should support a dynamic configuration service allowing configuration

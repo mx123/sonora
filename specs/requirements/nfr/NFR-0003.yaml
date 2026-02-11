@@ -1,6 +1,6 @@
 id: NFR-0003
 title: E2E tests become mandatory when code appears
-status: proposed
+status: approved
 category: quality-gates
 statement: >
   Once backend/frontend code is present, end-to-end tests must exist and pass in CI

@@ -1,6 +1,6 @@
 id: NFR-0019
 title: Serialized JWT length is bounded; no PII in JWT claims
-status: proposed
+status: approved
 category: security
 statement: >
   Serialized JWTs (as transmitted, measured in bytes) should typically be within
