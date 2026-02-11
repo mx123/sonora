@@ -1,0 +1,27 @@
+Sonora Output Exception (Additional Permission)
+
+This file grants an additional permission under GNU AGPLv3 section 7.
+
+Scope
+
+- “Sonora” means this repository’s contents, including its tools and specification templates.
+- “Output” means any files and/or repositories generated or modified by running Sonora’s tooling
+  (for example, `tools/bootstrap.py`) against a user-provided configuration, including placeholder
+  substitution and scaffolding performed by that tooling.
+
+Additional permission
+
+You may create, use, distribute, and/or license the Output under terms of your choice, including
+proprietary terms, without the Output itself becoming subject to the AGPL solely because it was
+produced using Sonora.
+
+Limitations
+
+- This exception does not apply to Sonora itself or to modifications of Sonora. If you modify Sonora
+  and convey it to others, or provide it for use over a network in a way that triggers the AGPL’s
+  source-offer requirements, you must comply with the AGPL for those modifications.
+- This exception does not grant permission to remove or alter copyright notices in Sonora.
+
+No warranty
+
+Sonora and its Output are provided “AS IS”, without warranty of any kind, to the extent permitted by law.
