@@ -13,6 +13,9 @@ entrypoints:
   - id: entry.specs.rules
     path: specs/rules/
 
+  - id: entry.specs.architecture.domain
+    path: specs/architecture/domain/
+
   - id: entry.tools.spec-ci
     path: tools/spec-ci/
 

@@ -1,6 +1,6 @@
 # ADR-0014: Adopt Hexagonal Architecture for Backend Domains
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-01-27
 
 ## Context
