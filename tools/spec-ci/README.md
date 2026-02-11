@@ -33,3 +33,10 @@ From repo root:
   - each `DOM-####.yaml` present must be listed in `domains.yaml` (no orphan domain files)
   - `repoId` must exist in `specs/registry/workspace-registry.yaml`
   - `entrypoints.core` and `entrypoints.container` must be `entry.*` IDs
+
+- Middleware registry (if present):
+  - each `specs/architecture/middleware/*.md` (except README.md) must contain metadata: Middleware ID (`mw.*`), Category (`mandatory`|`optional`), Pipeline Position, Implementation Ref (`<repoId> :: entry.middleware.*`)
+  - Middleware IDs must be unique across all middleware spec files
+  - Pipeline Positions must be unique and monotonically increasing
+  - `repoId` in Implementation Ref must exist in `specs/registry/workspace-registry.yaml`
+  - entry-point IDs must start with `entry.middleware.`
