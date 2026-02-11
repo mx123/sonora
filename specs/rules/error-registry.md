@@ -33,8 +33,6 @@ Examples:
 
 - `AUTH.CREDENTIALS.INVALID`
 - `TENANT.ACCESS.FORBIDDEN`
-- `INVENTORY.ITEM.NOT_FOUND`
-- `CART.CHECKOUT.VALIDATION_FAILED`
 
 Rules:
 
@@ -48,7 +46,7 @@ Rules:
 
 Recommended patterns:
 
-- `https://errors.example.com/<domain>/<category>/<name>`
+- `https://https://errors.CHANGE_ME.example.com/<domain>/<category>/<name>`
 - `urn:problem:<domain>:<category>:<name>`
 
 Rules:
@@ -67,8 +65,7 @@ Recommended pattern:
 Examples:
 
 - `auth.login.invalid_credentials`
-- `inventory.item.not_found`
-- `cart.checkout.validation_failed`
+- `tenant.access.forbidden`
 
 Rules:
 
@@ -101,18 +98,18 @@ Domains MAY define additional codes and types, but SHOULD align with these defau
 
 | Scenario | HTTP `status` | `code` | `type` (pattern) | `i18n.key` |
 |---|---:|---|---|---|
-| Malformed request / generic validation failure | 400 | `COMMON.VALIDATION.FAILED` | `.../common/validation/failed` | `common.validation.failed` |
-| Unauthenticated | 401 | `AUTH.UNAUTHORIZED` | `.../auth/unauthorized` | `auth.unauthorized` |
-| Forbidden | 403 | `AUTH.FORBIDDEN` | `.../auth/forbidden` | `auth.forbidden` |
-| Resource not found | 404 | `COMMON.NOT_FOUND` | `.../common/not-found` | `common.not_found` |
-| Conflict (business/state) | 409 | `COMMON.CONFLICT` | `.../common/conflict` | `common.conflict` |
-| Rate limited | 429 | `COMMON.RATE_LIMITED` | `.../common/rate-limited` | `common.rate_limited` |
-| Upstream unavailable / dependency timeout | 503 | `COMMON.UPSTREAM.UNAVAILABLE` | `.../common/upstream/unavailable` | `common.upstream.unavailable` |
-| Unhandled internal error | 500 | `COMMON.INTERNAL.ERROR` | `.../common/internal/error` | `common.internal.error` |
+| Malformed request / generic validation failure | 400 | `COMMON.VALIDATION.FAILED` | `https://https://errors.CHANGE_ME.example.com/common/validation/failed` | `common.validation.failed` |
+| Unauthenticated | 401 | `AUTH.UNAUTHORIZED` | `https://https://errors.CHANGE_ME.example.com/auth/unauthorized` | `auth.unauthorized` |
+| Forbidden | 403 | `AUTH.FORBIDDEN` | `https://https://errors.CHANGE_ME.example.com/auth/forbidden` | `auth.forbidden` |
+| Resource not found | 404 | `COMMON.NOT_FOUND` | `https://https://errors.CHANGE_ME.example.com/common/not-found` | `common.not_found` |
+| Conflict (business/state) | 409 | `COMMON.CONFLICT` | `https://https://errors.CHANGE_ME.example.com/common/conflict` | `common.conflict` |
+| Rate limited | 429 | `COMMON.RATE_LIMITED` | `https://https://errors.CHANGE_ME.example.com/common/rate-limited` | `common.rate_limited` |
+| Upstream unavailable / dependency timeout | 503 | `COMMON.UPSTREAM.UNAVAILABLE` | `https://https://errors.CHANGE_ME.example.com/common/upstream/unavailable` | `common.upstream.unavailable` |
+| Unhandled internal error | 500 | `COMMON.INTERNAL.ERROR` | `https://https://errors.CHANGE_ME.example.com/common/internal/error` | `common.internal.error` |
 
 Notes:
 
-- `type` values above use the short form `...` to indicate the project’s chosen base (see "Problem type" section).
+- `type` values above use the short form `https://https://errors.CHANGE_ME.example.com` as the project's error base URI.
 - For field-level validation errors, use `COMMON.VALIDATION.FAILED` at the top-level plus per-field `errors[]` entries.
 
 
@@ -169,12 +166,12 @@ Minimum envelope recommendations:
 
 This section is intentionally small; expand as domains are implemented.
 
-- `AUTH.CREDENTIALS.INVALID` → `auth.login.invalid_credentials` → type `.../auth/credentials/invalid`
-- `COMMON.VALIDATION.FAILED` → `common.validation.failed` → type `.../common/validation/failed`
-- `COMMON.UPSTREAM.UNAVAILABLE` → `common.upstream.unavailable` → type `.../common/upstream/unavailable`
+- `AUTH.CREDENTIALS.INVALID` → `auth.login.invalid_credentials` → type `https://https://errors.CHANGE_ME.example.com/auth/credentials/invalid`
+- `COMMON.VALIDATION.FAILED` → `common.validation.failed` → type `https://https://errors.CHANGE_ME.example.com/common/validation/failed`
+- `COMMON.UPSTREAM.UNAVAILABLE` → `common.upstream.unavailable` → type `https://https://errors.CHANGE_ME.example.com/common/upstream/unavailable`
 
 Add as domains appear:
 
-- `COMMON.NOT_FOUND` → `common.not_found` → type `.../common/not-found`
-- `COMMON.CONFLICT` → `common.conflict` → type `.../common/conflict`
-- `COMMON.INTERNAL.ERROR` → `common.internal.error` → type `.../common/internal/error`
+- `COMMON.NOT_FOUND` → `common.not_found` → type `https://https://errors.CHANGE_ME.example.com/common/not-found`
+- `COMMON.CONFLICT` → `common.conflict` → type `https://https://errors.CHANGE_ME.example.com/common/conflict`
+- `COMMON.INTERNAL.ERROR` → `common.internal.error` → type `https://https://errors.CHANGE_ME.example.com/common/internal/error`

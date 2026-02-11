@@ -13,7 +13,7 @@ We need a consistent, verifiable way to:
 
 Existing governance and contracts:
 
-- Hexagonal Architecture baseline: `docs/adr/ADR-00014-backend-hexagonal.md`.
+- Hexagonal Architecture baseline: `docs/adr/ADR-0014-backend-hexagonal.md`.
 - Shell integration and boundary contract: `specs/architecture/backend-shell-app.md`.
 - Multi-repo baseline and per-repository indexing: `docs/adr/ADR-0016-multi-repo-registry-quality-gates.md`.
 - Workspace repository discovery: `specs/registry/workspace-registry.yaml`.

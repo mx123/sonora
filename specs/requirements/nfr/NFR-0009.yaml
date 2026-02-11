@@ -1,6 +1,6 @@
 id: NFR-0009
 title: Production services expose standardized health endpoints
-status: proposed
+status: approved
 category: operability
 statement: >
   All production services must implement standardized health endpoints suitable for

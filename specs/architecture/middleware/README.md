@@ -14,8 +14,8 @@ This registry is **not** a requirements model; it is a discoverability and integ
 | 200      | `mw.trace`     | mandatory | `trace.md`       | `entry.middleware.trace`     |
 | 300      | `mw.error`     | mandatory | `error.md`       | `entry.middleware.error`     |
 | 400      | `mw.messaging` | mandatory | `messaging.md`   | `entry.middleware.messaging` |
-| 500      | `mw.audit`     | optional  | *(follow-up)*    | `entry.middleware.audit`     |
-| 600      | `mw.cache`     | optional  | *(follow-up)*    | `entry.middleware.cache`     |
+| 500      | `mw.audit`     | optional  | `audit.md`       | `entry.middleware.audit`     |
+| 600      | `mw.cache`     | optional  | `cache.md`       | `entry.middleware.cache`     |
 
 Position gaps (100-step increments) allow future insertions without renumbering.
 

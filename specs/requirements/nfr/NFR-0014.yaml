@@ -1,6 +1,6 @@
 id: NFR-0014
 title: Localization updates are possible without deployment
-status: proposed
+status: approved
 category: usability
 statement: >
   Adding languages, changing translations, or other localization elements for all

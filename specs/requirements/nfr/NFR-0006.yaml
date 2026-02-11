@@ -1,6 +1,6 @@
 id: NFR-0006
 title: Third-party calls are wrapped into common libraries
-status: proposed
+status: approved
 category: maintainability
 statement: >
   Calls to commonly used third-party services must be wrapped into our common library(ies).

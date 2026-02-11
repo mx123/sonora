@@ -39,6 +39,11 @@ Domain code MAY depend on a narrow auth context port (e.g., `CurrentIdentity`, `
 - `qg.tests.contract` — auth middleware contract tests (valid token, expired token, missing token, tenant extraction)
 - `qg.arch.boundaries` — auth middleware resides in infrastructure/adapter layer, not in domain core
 
+## Infrastructure Dependencies
+
+- **Auth Domain (DOM-0001) — JWKS endpoint**: `mw.auth` fetches and caches public keys published by the Auth Domain to perform local, stateless JWT validation. Keys are refreshed periodically or on cache miss. The Auth Domain is the sole source of signing keys; no other domain publishes JWKS.
+- **Startup contract**: If JWKS keys cannot be obtained during application startup, the shell MUST fail-fast (no degraded mode).
+
 ## Related
 
 - ADR-0005: Stateless JWT in Distributed Domains

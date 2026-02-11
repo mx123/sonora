@@ -1,6 +1,6 @@
 id: NFR-0004
 title: Architecture conformance checks become mandatory when code appears
-status: proposed
+status: approved
 category: maintainability
 statement: >
   Once backend/frontend code is present, automated architecture conformance checks must

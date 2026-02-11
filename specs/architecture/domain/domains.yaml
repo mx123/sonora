@@ -5,4 +5,5 @@ schemaVersion: 1
 
 # Registered domains
 domains: # list of DOM-#### ids
-  - DOM-0001
+  - DOM-0001  # Auth
+  - DOM-0002  # Example Domain

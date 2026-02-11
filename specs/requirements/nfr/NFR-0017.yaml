@@ -1,6 +1,6 @@
 id: NFR-0017
 title: OS-agnostic developer and CI tooling (Gradle-first)
-status: proposed
+status: approved
 category: maintainability
 statement: >
   Project tooling must be OS-agnostic: core build and check workflows must be

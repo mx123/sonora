@@ -1,16 +1,27 @@
 id: DOM-0001
-status: proposed
+status: approved
 
-name: Example Domain
+name: Auth
 
 description: >
-  Example registered domain entry. Replace with a real domain once the backend
-  repository and its repo.yaml entrypoints are defined.
+  Authentication and authorization domain. Serves a dual role:
+  (1) Infrastructure role — sole issuer of access tokens (JWT) and refresh
+      tokens; publishes JWKS and manages key rotation. Consumed indirectly by
+      all domain services via mw.auth middleware.
+  (2) Domain role — manages user lifecycle (registration, activation,
+      deactivation) and auth session lifecycle (authentication, token refresh,
+      token revocation) through direct API interactions.
 
 # Must exist in `specs/registry/workspace-registry.yaml`.
 repoId: repo.backend
 
 # These IDs must be declared in the backend repository root `repo.yaml`.
 entrypoints:
-  core: entry.domain.example.core
-  container: entry.domain.example.container
+  core: entry.domain.auth.core
+  container: entry.domain.auth.container
+
+commandsDoc: specs/domain/commands.md
+eventsDoc: specs/domain/events.md
+
+# Auth is a foundational domain — no domain dependencies.
+# dependsOnDomains: []

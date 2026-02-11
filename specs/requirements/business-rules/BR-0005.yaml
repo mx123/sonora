@@ -1,0 +1,18 @@
+id: BR-0005
+title: Refresh token is single-use and revocable
+status: proposed
+priority: high
+statement: >
+  Each refresh token may be used at most once to obtain a new access token.
+  After use, the refresh token is consumed and a new refresh token is issued
+  alongside the new access token. Refresh tokens may also be explicitly revoked
+  (e.g., on logout or security event).
+acceptance_criteria:
+  - "A refresh token that has already been used is rejected with AUTH.UNAUTHORIZED."
+  - "A revoked refresh token is rejected with AUTH.UNAUTHORIZED."
+  - "Successful token refresh issues both a new access token and a new refresh token."
+  - "Explicit revocation (CMD-0004) permanently invalidates the refresh token."
+notes: >
+  Rotation-on-use limits the window of token theft. Combined with short-lived
+  access tokens (5-15 min per CAP-0002), this provides defense-in-depth
+  against token compromise.

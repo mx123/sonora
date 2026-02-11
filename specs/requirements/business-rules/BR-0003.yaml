@@ -1,0 +1,14 @@
+id: BR-0003
+title: User activation requires inactive state
+status: proposed
+priority: high
+statement: >
+  A user account can only be activated if it is currently in an inactive state.
+  Attempting to activate an already active account must be rejected.
+acceptance_criteria:
+  - "Activation of an already active user is rejected with COMMON.CONFLICT."
+  - "Activation of a non-existent user is rejected with COMMON.NOT_FOUND."
+  - "Upon activation, the user status transitions to active."
+notes: >
+  Applies to CMD-0005 (Activate User). Activation may follow initial
+  registration (email verification) or admin reinstatement.

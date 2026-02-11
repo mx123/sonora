@@ -1,6 +1,6 @@
 id: NFR-0016
 title: Root Gradle Wrapper and centralized aggregate tasks
-status: proposed
+status: approved
 category: maintainability
 statement: >
   The repository must provide a Gradle Wrapper at the repo root and use it as the

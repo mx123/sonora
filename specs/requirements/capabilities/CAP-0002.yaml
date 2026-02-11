@@ -78,3 +78,18 @@ security_constraints:
   no_shared_session_storage: true
   no_sync_calls_to_auth_for_authorization: true
   token_revocation: "eventual (short-lived access tokens); compensating controls are optional"
+
+trace:
+  domain:
+    commands:
+      - specs/domain/commands.md#CMD-0002  # Authenticate User
+      - specs/domain/commands.md#CMD-0003  # Refresh Access Token
+      - specs/domain/commands.md#CMD-0004  # Revoke Refresh Token
+      - specs/domain/commands.md#CMD-0005  # Activate User
+      - specs/domain/commands.md#CMD-0006  # Deactivate User
+    events:
+      - specs/domain/events.md#EVT-0002  # User Authenticated
+      - specs/domain/events.md#EVT-0003  # Access Token Refreshed
+      - specs/domain/events.md#EVT-0004  # Refresh Token Revoked
+      - specs/domain/events.md#EVT-0005  # User Activated
+      - specs/domain/events.md#EVT-0006  # User Deactivated

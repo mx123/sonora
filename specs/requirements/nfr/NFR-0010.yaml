@@ -1,6 +1,6 @@
 id: NFR-0010
 title: Production services support standardized logging and tracing
-status: proposed
+status: approved
 category: observability
 statement: >
   All production services must support standardized logging.

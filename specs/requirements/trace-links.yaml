@@ -64,6 +64,21 @@ links:
     type: verifies
     rationale: "JWT-based access model supports stateless domains and avoids server-side sessions."
 
+  - from: CAP-0002
+    to: BR-0003
+    type: satisfies
+    rationale: "Auth lifecycle includes user activation with state precondition enforcement."
+
+  - from: CAP-0002
+    to: BR-0004
+    type: satisfies
+    rationale: "User deactivation triggers session revocation as a security invariant."
+
+  - from: CAP-0002
+    to: BR-0005
+    type: satisfies
+    rationale: "Refresh token rotation and explicit revocation enforce single-use semantics."
+
   - from: BV-0003
     to: CAP-0003
     type: realizes

@@ -1,6 +1,6 @@
 id: NFR-0018
 title: Domain services validate JWTs locally using cached JWKS (fail-closed)
-status: proposed
+status: approved
 category: security
 statement: >
   Domain services must validate JWT access tokens locally (signature, issuer,

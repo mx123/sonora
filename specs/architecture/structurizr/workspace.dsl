@@ -1,11 +1,11 @@
-workspace "KX Platform" "C4 model derived from specs/architecture and CAP requirements." {
+workspace "CHANGE_ME Platform" "C4 model derived from specs/architecture and CAP requirements." {
 
   model {
     user = person "User" "End user of the product." {
       tags "Person"
     }
 
-    platform = softwareSystem "KX Platform" "Distributed domain services with a Shell-composed UI." {
+    platform = softwareSystem "CHANGE_ME Platform" "Distributed domain services with a Shell-composed UI." {
       tags "SoftwareSystem"
 
       shell = container "Shell Application" "Owns global navigation, authentication integration, theming, and composes domain UI modules." "Web/Mobile App" {
@@ -24,15 +24,7 @@ workspace "KX Platform" "C4 model derived from specs/architecture and CAP requir
         tags "Container,Auth"
       }
 
-      inventory = container "Inventory Domain Service" "Inventory APIs. Validates JWT locally using cached JWKS." "Service" {
-        tags "Container,DomainService"
-      }
-
-      cart = container "Shopping Cart Domain Service" "Cart APIs. Validates JWT locally using cached JWKS." "Service" {
-        tags "Container,DomainService"
-      }
-
-      tracking = container "Tracking Domain Service" "Tracking APIs. Validates JWT locally using cached JWKS." "Service" {
+      exampleDomain = container "Example Domain Service (DOM-0002)" "Placeholder domain service. Validates JWT locally using cached JWKS. Replace with a real business domain." "Service" {
         tags "Container,DomainService"
       }
     }
@@ -44,17 +36,12 @@ workspace "KX Platform" "C4 model derived from specs/architecture and CAP requir
     shell -> auth "Authenticates / refreshes" "OIDC/OAuth2"
 
     domainUIs -> gateway "Calls APIs with access token" "HTTPS + JWT (access)"
-    gateway -> inventory "Routes requests" "HTTPS + JWT (access)"
-    gateway -> cart "Routes requests" "HTTPS + JWT (access)"
-    gateway -> tracking "Routes requests" "HTTPS + JWT (access)"
 
-    domainUIs -> inventory "(Optional) calls domain API directly" "HTTPS + JWT (access)"
-    domainUIs -> cart "(Optional) calls domain API directly" "HTTPS + JWT (access)"
-    domainUIs -> tracking "(Optional) calls domain API directly" "HTTPS + JWT (access)"
+    gateway -> auth "Routes auth requests" "HTTPS + JWT (access)"
 
-    inventory -> auth "Periodically fetches JWKS" "HTTPS"
-    cart -> auth "Periodically fetches JWKS" "HTTPS"
-    tracking -> auth "Periodically fetches JWKS" "HTTPS"
+    domainUIs -> exampleDomain "(Optional) calls domain API directly" "HTTPS + JWT (access)"
+    gateway -> exampleDomain "Routes requests" "HTTPS + JWT (access)"
+    exampleDomain -> auth "Periodically fetches JWKS" "HTTPS"
   }
 
   views {

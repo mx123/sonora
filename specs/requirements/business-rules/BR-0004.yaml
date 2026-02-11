@@ -1,0 +1,16 @@
+id: BR-0004
+title: User deactivation revokes active sessions
+status: proposed
+priority: high
+statement: >
+  When a user account is deactivated, all active auth sessions (refresh tokens)
+  belonging to that user must be revoked as a consequence. The user must not be
+  able to authenticate or refresh tokens while deactivated.
+acceptance_criteria:
+  - "Deactivation of a non-active user is rejected with COMMON.CONFLICT."
+  - "All active refresh tokens for the user are revoked upon deactivation."
+  - "Authentication attempts by a deactivated user are rejected with AUTH.CREDENTIALS.INVALID."
+  - "Token refresh attempts by a deactivated user are rejected with AUTH.UNAUTHORIZED."
+notes: >
+  Applies to CMD-0006 (Deactivate User). Access tokens already issued remain
+  valid until expiry (stateless model), but no new tokens can be obtained.
