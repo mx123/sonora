@@ -16,6 +16,9 @@ entrypoints:
   - id: entry.specs.architecture.domain
     path: specs/architecture/domain/
 
+  - id: entry.specs.architecture.middleware
+    path: specs/architecture/middleware/
+
   - id: entry.tools.spec-ci
     path: tools/spec-ci/
 

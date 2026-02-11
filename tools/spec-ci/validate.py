@@ -24,6 +24,14 @@ ID_PATTERNS = {
     "DOM": re.compile(r"^DOM-\d{4}$"),
 }
 
+MW_ID_RE = re.compile(r"^mw\.\w+$")
+MW_METADATA_RE = {
+    "id": re.compile(r"\*\*Middleware ID:\*\*\s*`(mw\.\w+)`"),
+    "category": re.compile(r"\*\*Category:\*\*\s*(mandatory|optional)"),
+    "position": re.compile(r"\*\*Pipeline Position:\*\*\s*(\d+)"),
+    "impl_ref": re.compile(r"\*\*Implementation Ref:\*\*\s*`([^`]+)\s*::\s*(entry\.middleware\.\w+)`"),
+}
+
 DOMAIN_FRAGMENT_RE = re.compile(r"^(specs/domain/.+\.(md|yaml))#((CMD|EVT)-\d{4})$")
 
 
@@ -379,6 +387,109 @@ def _validate_domain_registry() -> None:
             _fail(f"{dom_path.relative_to(REPO_ROOT)}: entrypoints.container must start with 'entry.'")
 
 
+def _parse_middleware_metadata(path: Path) -> Dict[str, str]:
+    """Extract metadata fields from a middleware spec markdown file."""
+    text = path.read_text(encoding="utf-8")
+    result: Dict[str, str] = {}
+
+    m = MW_METADATA_RE["id"].search(text)
+    if m:
+        result["id"] = m.group(1)
+
+    m = MW_METADATA_RE["category"].search(text)
+    if m:
+        result["category"] = m.group(1)
+
+    m = MW_METADATA_RE["position"].search(text)
+    if m:
+        result["position"] = m.group(1)
+
+    m = MW_METADATA_RE["impl_ref"].search(text)
+    if m:
+        result["repo_id"] = m.group(1).strip()
+        result["entry_id"] = m.group(2)
+
+    return result
+
+
+def _validate_middleware_registry() -> None:
+    base = REPO_ROOT / "specs" / "architecture" / "middleware"
+    if not base.exists():
+        return
+
+    readme = base / "README.md"
+    if not readme.exists():
+        _fail(f"{base.relative_to(REPO_ROOT)}: missing README.md (middleware registry index)")
+
+    # Collect middleware spec files (everything except README.md)
+    mw_files = sorted(p for p in base.glob("*.md") if p.name.lower() != "readme.md")
+
+    if not mw_files:
+        return  # no middleware specs yet; nothing to validate
+
+    repo_ids = _load_workspace_repo_ids()
+
+    seen_ids: Dict[str, Path] = {}
+    seen_positions: Dict[int, str] = {}
+
+    for mw_path in mw_files:
+        rel = mw_path.relative_to(REPO_ROOT)
+        meta = _parse_middleware_metadata(mw_path)
+
+        # --- Required metadata ---
+        mw_id = meta.get("id")
+        if not mw_id:
+            _fail(f"{rel}: missing **Middleware ID:** `mw.*` in metadata section")
+        if not MW_ID_RE.match(mw_id):
+            _fail(f"{rel}: middleware ID '{mw_id}' does not match pattern mw.<name>")
+
+        category = meta.get("category")
+        if not category:
+            _fail(f"{rel}: missing **Category:** (mandatory|optional) in metadata section")
+
+        position_str = meta.get("position")
+        if not position_str:
+            _fail(f"{rel}: missing **Pipeline Position:** in metadata section")
+        position = int(position_str)
+
+        entry_id = meta.get("entry_id")
+        repo_id = meta.get("repo_id")
+        if not entry_id or not repo_id:
+            _fail(f"{rel}: missing **Implementation Ref:** `<repoId> :: entry.middleware.*` in metadata section")
+
+        # --- Uniqueness: middleware ID ---
+        if mw_id in seen_ids:
+            _fail(f"{rel}: duplicate middleware ID '{mw_id}' (also in {seen_ids[mw_id].relative_to(REPO_ROOT)})")
+        seen_ids[mw_id] = mw_path
+
+        # --- Uniqueness: pipeline position ---
+        if position in seen_positions:
+            _fail(
+                f"{rel}: duplicate pipeline position {position} (conflicts with '{seen_positions[position]}')"
+            )
+        seen_positions[position] = mw_id
+
+        # --- repoId exists in workspace registry ---
+        if repo_id not in repo_ids:
+            _fail(
+                f"{rel}: repoId '{repo_id}' not found in specs/registry/workspace-registry.yaml repos[].id"
+            )
+
+        # --- entry-point ID convention ---
+        if not entry_id.startswith("entry.middleware."):
+            _fail(f"{rel}: entry-point ID '{entry_id}' must start with 'entry.middleware.'")
+
+    # --- Pipeline positions must be monotonically increasing (sanity) ---
+    positions_sorted = sorted(seen_positions.keys())
+    for i in range(1, len(positions_sorted)):
+        if positions_sorted[i] <= positions_sorted[i - 1]:
+            _fail(
+                f"Middleware pipeline positions are not monotonically increasing: "
+                f"{seen_positions[positions_sorted[i-1]]}@{positions_sorted[i-1]} vs "
+                f"{seen_positions[positions_sorted[i]]}@{positions_sorted[i]}"
+            )
+
+
 def main() -> None:
     files = _collect_files()
     if not files:
@@ -402,6 +513,7 @@ def main() -> None:
     _validate_trace_links(ids)
     _validate_deltas(ids)
     _validate_domain_registry()
+    _validate_middleware_registry()
 
     print("OK: specs validation passed")
 

@@ -12,6 +12,7 @@ Key specs:
 - Backend shell app contract: `specs/architecture/backend-shell-app.md`
 - Frontend shells contract: `specs/architecture/frontend-shells.md`
 - Domain registry (backend domains): `specs/architecture/domain/` (index: `domains.yaml`)
+- Middleware registry (shell pipeline): `specs/architecture/middleware/` (index: `README.md`)
 
 Registry and integration:
 - Workspace registry (multi-repo): `specs/registry/workspace-registry.yaml`
