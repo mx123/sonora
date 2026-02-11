@@ -26,3 +26,10 @@ From repo root:
 - Implemented capability hard gate:
   - `CAP.status == implemented` requires non-empty domain trace lists
   - links must resolve to anchors in `specs/domain/*.md` (e.g. `<a id="CMD-0001"></a>`)
+
+- Domain registry (if present):
+  - `specs/architecture/domain/domains.yaml` must list valid `DOM-####` ids
+  - each listed domain must have a matching `specs/architecture/domain/DOM-####.yaml`
+  - each `DOM-####.yaml` present must be listed in `domains.yaml` (no orphan domain files)
+  - `repoId` must exist in `specs/registry/workspace-registry.yaml`
+  - `entrypoints.core` and `entrypoints.container` must be `entry.*` IDs

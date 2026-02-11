@@ -1,0 +1,8 @@
+# Domain registry index
+# This file is authoritative for the list of registered domains, but it is not a requirements model.
+
+schemaVersion: 1
+
+# Registered domains
+domains: # list of DOM-#### ids
+  - DOM-0001
