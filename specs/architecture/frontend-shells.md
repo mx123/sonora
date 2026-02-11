@@ -59,6 +59,6 @@ Implementations MAY vary by framework/module system/runtime; this specification 
 
 References:
 - ADR-0016 (multi-repo baseline): `docs/adr/ADR-0016-multi-repo-registry-quality-gates.md`
-- ADR-0006 (federated UI composition): `docs/adr/ADR-0006-Federated-UI-Composition.md`
+- ADR-0006 (federated UI composition): `docs/adr/ADR-0006-federated-ui-composition.md`
 - ADR-0015 (frontend slicing): `docs/adr/ADR-0015-frontend-layered-feature-slicing.md`
 - Quality gates catalog: `specs/rules/quality-gates.md`

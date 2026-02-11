@@ -30,8 +30,8 @@ Sonora is a governance-first specification repository that defines platform arch
 │   └── rules/                       # Error registry, naming conventions
 ├── tools/
 │   ├── bootstrap.py                 # Project instantiation CLI
-│   ├── reqingest.py                 # Requirements ingestion pipeline (planned)
-│   ├── taskgen.py                   # Task generation for LLM agents (planned)
+│   ├── reqingest.py                 # Requirements ingestion pipeline (LLM-assisted)
+│   ├── taskgen.py                   # Task generation from deltas (LLM-assisted)
 │   └── spec-ci/
 │       ├── validate.py              # SSOT validation (schemas, traces, domains, deltas)
 │       └── generate_structurizr.py  # C4 diagram generation
@@ -173,19 +173,31 @@ Every delta-governed change flows through the delta workflow:
 - Do trace links accurately connect BV → CAP → BR/NFR → CMD/EVT?
 - Does the delta accurately describe the change scope?
 
-### Phase 3 — Task Generation (planned: taskgen.py)
+### Phase 3 — Task Generation
 
 Once a delta is `applied`, `taskgen.py` reads it and generates implementation task specifications for LLM coding agents:
 
 ```bash
+# Generate tasks from a specific delta
 python tools/taskgen.py --delta specs/deltas/2026-03-01-password-reset.yaml
+
+# Preview impact analysis without calling LLM
+python tools/taskgen.py --delta specs/deltas/2026-03-01-password-reset.yaml --plan
+
+# Generate individual markdown task files
+python tools/taskgen.py --delta ... --format files --out-dir tasks/
+
+# Process all pending deltas
+python tools/taskgen.py --all-pending
 ```
 
 Each task includes:
-- **Target files** — which code modules to create or modify.
+- **Layer** — architectural layer (`domain-core`, `application`, `adapter-in`, `adapter-out`, `middleware`, `test`).
+- **Target files** — which code modules to create or modify (hexagonal path conventions).
 - **Acceptance criteria** — derived from the BR and CAP that triggered the delta.
 - **Contracts** — API schemas, event payloads, error codes from the spec artifacts.
 - **Dependency order** — tasks are topologically sorted so agents can work sequentially.
+- **Quality gates** — applicable gate IDs from `repo.yaml`.
 
 ### Phase 4 — Code & Verify
 
@@ -257,7 +269,7 @@ BV → CAP → NFR
 | **bootstrap.py** | `tools/bootstrap.py` | Project instantiation from meta-template |
 | **generate_structurizr.py** | `tools/spec-ci/generate_structurizr.py` | C4 diagram generation from workspace.dsl |
 | **reqingest.py** | `tools/reqingest.py` | Requirements ingestion pipeline (LLM-assisted) |
-| **taskgen.py** | `tools/taskgen.py` | LLM task generation from deltas *(planned)* |
+| **taskgen.py** | `tools/taskgen.py` | LLM task generation from deltas |
 
 ### Requirements Ingestion Pipeline (reqingest.py)
 
@@ -331,16 +343,57 @@ specs/deltas/2026-03-01-password-reset.yaml        # Delta with 3 governed chang
 
 ### Task Generation Pipeline (taskgen.py)
 
-Reads applied deltas and generates implementation task specifications for LLM coding agents:
+LLM-assisted pipeline that reads applied deltas and generates implementation task specifications for LLM coding agents.
+
+#### Pipeline Stages
 
 ```
 Delta → IMPACT → DECOMPOSE → SPECIFY → ORDER → Tasks
 ```
 
-1. **IMPACT** — maps delta changes to affected code modules (adapters, middleware, domain services).
-2. **DECOMPOSE** — breaks each impact into atomic implementation tasks.
-3. **SPECIFY** — generates a task spec per unit (contract, acceptance criteria, file targets).
-4. **ORDER** — topologically sorts tasks by dependency.
+| Stage | What happens |
+|-------|-------------|
+| **IMPACT** | Resolves delta targets to full spec context: loads CAP/BR/NFR YAML, parses CMD/EVT markdown sections, finds related BRs via trace links, identifies affected middleware and domains. |
+| **DECOMPOSE** | LLM breaks each code-impacting change into atomic implementation tasks. Status-only changes (e.g., "proposed → approved") are automatically skipped. |
+| **SPECIFY** | LLM generates a task spec per unit: target files (hexagonal path conventions), acceptance criteria, error codes, contracts, quality gates. |
+| **ORDER** | Topologically sorts tasks by `depends_on` with layer-priority tie-breaking: `domain-core` → `application` → `adapter-in/out` → `middleware` → `test`. |
+
+#### Context Awareness
+
+Before calling the LLM, `taskgen.py` reads:
+- Backend Shell App spec (composition model, domain inclusion semantics).
+- Middleware registry (IDs, positions, categories).
+- Domain definitions from `specs/architecture/domain/`.
+- Full CMD/EVT specs (payload, invariants, error codes) from `specs/domain/`.
+- Related BRs via `trace-links.yaml`.
+- Quality gate IDs from `repo.yaml`.
+
+The system prompt includes hexagonal architecture guidance, middleware pipeline layout, and task structuring rules.
+
+#### Usage
+
+```bash
+# Impact analysis only (no LLM call)
+python tools/taskgen.py --delta specs/deltas/2026-02-11-auth-domain-model.yaml --plan
+
+# Full task generation (requires API key)
+python tools/taskgen.py --delta specs/deltas/2026-02-11-auth-domain-model.yaml
+
+# Output as individual markdown files
+python tools/taskgen.py --delta ... --format files --out-dir tasks/
+
+# Process all pending deltas
+python tools/taskgen.py --all-pending
+```
+
+#### Configuration (environment variables)
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `TASKGEN_LLM_PROVIDER` | `openai` | LLM provider: `openai` or `anthropic` |
+| `TASKGEN_LLM_BASE_URL` | `https://api.openai.com/v1` | API base URL (supports any OpenAI-compatible endpoint) |
+| `TASKGEN_LLM_API_KEY` | *(required)* | API key for the LLM provider |
+| `TASKGEN_LLM_MODEL` | `gpt-4o` | Model name |
 
 ## Architecture References
 
@@ -348,8 +401,8 @@ Delta → IMPACT → DECOMPOSE → SPECIFY → ORDER → Tasks
 |-----|-------|
 | [ADR-0001](docs/adr/ADR-0001-llm-stream-sdd.md) | LLM Stream SDD |
 | [ADR-0004](docs/adr/ADR-0004-gradle-monorepo.md) | Gradle Monorepo (Superseded) |
-| [ADR-0005](docs/adr/ADR-0005-Stateless-JWT-Distributed-Domains.md) | Stateless JWT for Distributed Domains |
-| [ADR-0006](docs/adr/ADR-0006-Federated-UI-Composition.md) | Federated UI Composition |
+| [ADR-0005](docs/adr/ADR-0005-stateless-jwt-distributed-domains.md) | Stateless JWT for Distributed Domains |
+| [ADR-0006](docs/adr/ADR-0006-federated-ui-composition.md) | Federated UI Composition |
 | [ADR-0007](docs/adr/ADR-0007-rfc-9457-error-handling-i18n.md) | RFC 9457 Error Handling & i18n |
 | [ADR-0008](docs/adr/ADR-0008-shell-backend-middleware-composition.md) | Shell Backend Middleware Composition |
 | [ADR-0009](docs/adr/ADR-0009-security-starters-auth-audit.md) | Security Starters (Auth & Audit) |
@@ -366,4 +419,7 @@ Delta → IMPACT → DECOMPOSE → SPECIFY → ORDER → Tasks
 
 ## License
 
-*To be defined upon project publication.*
+Sonora is licensed under **AGPL-3.0-or-later**.
+
+- Full license terms: see [LICENSE](LICENSE)
+- Output exception (generated project instances may be licensed separately): see [LICENSE-EXCEPTION](LICENSE-EXCEPTION)

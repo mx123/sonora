@@ -68,7 +68,7 @@ Not allowed:
 - NFR-0020 defines the mandatory boundary constraints for composed UIs.
 
 References:
-- ADR-0006 (rationale): docs/adr/ADR-0006-Federated-UI-Composition.md
+- ADR-0006 (rationale): docs/adr/ADR-0006-federated-ui-composition.md
 
 Related:
 - Frontend shell contract: `specs/architecture/frontend-shells.md`
