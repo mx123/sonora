@@ -1,0 +1,26 @@
+# Template for a registered domain entry (copy and rename to DOM-####.yaml)
+
+id: DOM-0000
+status: proposed
+
+name: CHANGE_ME
+
+# Link to an implementation repository via workspace registry (multi-repo).
+# Must match an entry in `specs/registry/workspace-registry.yaml`.
+repoId: CHANGE_ME
+
+# Link to the implementation locations via entrypoint IDs declared in that repo's root `repo.yaml`.
+# Example:
+# entrypoints:
+#   core: entry.domain.<name>.core
+#   container: entry.domain.<name>.container
+entrypoints:
+  core: CHANGE_ME
+  container: CHANGE_ME
+
+# Optional:
+# - description: >
+#     ...
+# - dependsOnDomains: [DOM-0002]
+# - commandsDoc: specs/domain/commands.md
+# - eventsDoc: specs/domain/events.md

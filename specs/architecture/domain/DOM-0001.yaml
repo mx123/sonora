@@ -1,0 +1,16 @@
+id: DOM-0001
+status: proposed
+
+name: Example Domain
+
+description: >
+  Example registered domain entry. Replace with a real domain once the backend
+  repository and its repo.yaml entrypoints are defined.
+
+# Must exist in `specs/registry/workspace-registry.yaml`.
+repoId: repo.backend
+
+# These IDs must be declared in the backend repository root `repo.yaml`.
+entrypoints:
+  core: entry.domain.example.core
+  container: entry.domain.example.container

@@ -21,6 +21,7 @@ ID_PATTERNS = {
     "CAP": re.compile(r"^CAP-\d{4}$"),
     "BR": re.compile(r"^BR-\d{4}$"),
     "NFR": re.compile(r"^NFR-\d{4}$"),
+    "DOM": re.compile(r"^DOM-\d{4}$"),
 }
 
 DOMAIN_FRAGMENT_RE = re.compile(r"^(specs/domain/.+\.(md|yaml))#((CMD|EVT)-\d{4})$")
@@ -267,6 +268,117 @@ def _validate_deltas(ids: Dict[str, Set[str]]) -> None:
                 _fail(f"{p.relative_to(REPO_ROOT)}: changes[{i}].target references unknown id '{target}'")
 
 
+def _load_workspace_repo_ids() -> Set[str]:
+    reg_path = REPO_ROOT / "specs" / "registry" / "workspace-registry.yaml"
+    if not reg_path.exists():
+        _fail("Missing workspace registry: specs/registry/workspace-registry.yaml")
+
+    doc = _load_yaml(reg_path) or {}
+    if not isinstance(doc, Mapping):
+        _fail(f"{reg_path.relative_to(REPO_ROOT)}: expected object")
+
+    repos = doc.get("repos")
+    if not isinstance(repos, list):
+        _fail(f"{reg_path.relative_to(REPO_ROOT)}: 'repos' must be a list")
+
+    repo_ids: Set[str] = set()
+    for i, r in enumerate(repos):
+        if not isinstance(r, Mapping):
+            _fail(f"{reg_path.relative_to(REPO_ROOT)}: repos[{i}] must be an object")
+        rid = r.get("id")
+        if not isinstance(rid, str) or not rid:
+            _fail(f"{reg_path.relative_to(REPO_ROOT)}: repos[{i}].id must be a non-empty string")
+        repo_ids.add(rid)
+
+    return repo_ids
+
+
+def _validate_domain_registry() -> None:
+    base = REPO_ROOT / "specs" / "architecture" / "domain"
+    index_path = base / "domains.yaml"
+    if not index_path.exists():
+        return
+
+    doc = _load_yaml(index_path) or {}
+    if not isinstance(doc, Mapping):
+        _fail(f"{index_path.relative_to(REPO_ROOT)}: expected object")
+
+    domains = doc.get("domains")
+    if domains is None:
+        domains = []
+    if not isinstance(domains, list):
+        _fail(f"{index_path.relative_to(REPO_ROOT)}: 'domains' must be a list")
+
+    domain_ids: List[str] = []
+    for i, d in enumerate(domains):
+        if not isinstance(d, str):
+            _fail(f"{index_path.relative_to(REPO_ROOT)}: domains[{i}] must be a string DOM-####")
+        if not ID_PATTERNS["DOM"].match(d):
+            _fail(
+                f"{index_path.relative_to(REPO_ROOT)}: domains[{i}]='{d}' does not match pattern {ID_PATTERNS['DOM'].pattern}"
+            )
+        domain_ids.append(d)
+
+    if len(set(domain_ids)) != len(domain_ids):
+        _fail(f"{index_path.relative_to(REPO_ROOT)}: 'domains' must not contain duplicates")
+
+    # Ensure there are no orphan domain files in the folder.
+    # Convention: domain files are `DOM-####.yaml`; templates are excluded.
+    present_domain_ids: Set[str] = set()
+    for p in sorted(base.glob("DOM-*.yaml")):
+        if p.name.endswith("-template.yaml"):
+            continue
+        stem = p.stem
+        if ID_PATTERNS["DOM"].match(stem):
+            present_domain_ids.add(stem)
+
+    listed_ids = set(domain_ids)
+    extra = sorted(present_domain_ids - listed_ids)
+    if extra:
+        _fail(
+            f"{index_path.relative_to(REPO_ROOT)}: orphan domain files not listed in domains.yaml: {', '.join(extra)}"
+        )
+
+    repo_ids = _load_workspace_repo_ids()
+
+    for dom_id in domain_ids:
+        dom_path = base / f"{dom_id}.yaml"
+        if not dom_path.exists():
+            _fail(f"{index_path.relative_to(REPO_ROOT)}: missing domain file: {dom_path.relative_to(REPO_ROOT)}")
+
+        dom_doc = _load_yaml(dom_path) or {}
+        if not isinstance(dom_doc, Mapping):
+            _fail(f"{dom_path.relative_to(REPO_ROOT)}: expected object")
+
+        file_id = dom_doc.get("id")
+        if file_id != dom_id:
+            _fail(f"{dom_path.relative_to(REPO_ROOT)}: 'id' must match filename id '{dom_id}'")
+
+        repo_id = dom_doc.get("repoId")
+        if not isinstance(repo_id, str) or not repo_id:
+            _fail(f"{dom_path.relative_to(REPO_ROOT)}: missing/invalid 'repoId'")
+        if repo_id not in repo_ids:
+            _fail(
+                f"{dom_path.relative_to(REPO_ROOT)}: repoId '{repo_id}' not found in specs/registry/workspace-registry.yaml repos[].id"
+            )
+
+        entrypoints = dom_doc.get("entrypoints")
+        if not isinstance(entrypoints, Mapping):
+            _fail(f"{dom_path.relative_to(REPO_ROOT)}: missing/invalid 'entrypoints' object")
+
+        core_ep = entrypoints.get("core")
+        container_ep = entrypoints.get("container")
+        if not isinstance(core_ep, str) or not core_ep:
+            _fail(f"{dom_path.relative_to(REPO_ROOT)}: entrypoints.core must be a non-empty string")
+        if not isinstance(container_ep, str) or not container_ep:
+            _fail(f"{dom_path.relative_to(REPO_ROOT)}: entrypoints.container must be a non-empty string")
+
+        if not core_ep.startswith("entry."):
+            _fail(f"{dom_path.relative_to(REPO_ROOT)}: entrypoints.core must start with 'entry.'")
+        if not container_ep.startswith("entry."):
+            _fail(f"{dom_path.relative_to(REPO_ROOT)}: entrypoints.container must start with 'entry.'")
+
+
 def main() -> None:
     files = _collect_files()
     if not files:
@@ -289,6 +401,7 @@ def main() -> None:
 
     _validate_trace_links(ids)
     _validate_deltas(ids)
+    _validate_domain_registry()
 
     print("OK: specs validation passed")
 
