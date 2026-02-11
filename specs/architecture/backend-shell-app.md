@@ -82,6 +82,8 @@ Any concrete stack choices MUST be treated as reference implementations and MUST
 - Quality gates: `qg.arch.boundaries`, `qg.tests.contract`
 
 References:
+- ADR-0017 (domain composition and registration): `docs/adr/ADR-0017-domain-composition-and-registration.md`
 - ADR-0016 (baseline reset): `docs/adr/ADR-0016-multi-repo-registry-quality-gates.md`
 - ADR-0008 (shell backend rationale): `docs/adr/ADR-0008-shell-backend-middleware-composition.md`
+- Domain registry: `specs/architecture/domain/`
 - Quality gates catalog: `specs/rules/quality-gates.md`

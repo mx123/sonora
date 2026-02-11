@@ -1,6 +1,6 @@
 # ADR-0008: Shell Backend Middleware Composition via Build-Time Domain Inclusion
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-01-26
 
 ## Context
